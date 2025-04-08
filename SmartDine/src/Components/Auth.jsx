@@ -1,30 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
-import { useLocation } from 'react-router-dom';
+import { useLocation ,useNavigate} from 'react-router-dom';
 
 const Auth = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const location = useLocation();
     const isSignUp = location.pathname === "/signup"; 
+    const navigate = useNavigate();
 
     useEffect(() => {
         setEmail('');
         setPassword('');
     }, [isSignUp]);
 
+    // const handleAuth = async (e) => {
+    //     e.preventDefault();
+    //     if (isSignUp) {
+    //         const { error } = await supabase.auth.signUp({ email, password });
+    //         if (error) alert(error.message);
+    //         else alert('Sign-up successful! Check your email.');
+    //     } else {
+    //         const { error } = await supabase.auth.signInWithPassword({ email, password });
+    //         if (error) alert(error.message);
+    //         else {alert('Login successful!'); window.location.href = '/panel';}
+    //     }
+    // };
     const handleAuth = async (e) => {
         e.preventDefault();
+    
         if (isSignUp) {
             const { error } = await supabase.auth.signUp({ email, password });
-            if (error) alert(error.message);
-            else alert('Sign-up successful! Check your email.');
+            if (error) {
+                alert(error.message);
+            } else {
+                alert('Sign-up successful! Check your email.');
+            }
         } else {
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) alert(error.message);
-            window.location.href = '/menu';
+            const { _, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+                alert(error.message);
+            } else {
+                // Fetch the vendor using the email
+                const { data: vendorData, error: vendorError } = await supabase
+                    .from('vendor')
+                    .select('vendorid')
+                    .eq('email', email)
+                    .single();
+    
+                if (vendorError || !vendorData) {
+                    alert("Vendor not found in 'vendor' table.");
+                    return;
+                }
+    
+                const vendorid = vendorData.vendorid;
+                alert('Login successful!');
+                navigate(`/panel/${vendorid}`);
+            }
         }
     };
+
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: '#f9f9f9' }}>
