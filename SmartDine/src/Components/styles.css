@@ -385,4 +385,114 @@ button:hover {
       font-size: 14px;
     }
   }
+  .feedback-wrapper {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #0a0a0a;
+    color: white;
+    padding: 80px 60px;
+    text-align: center;
+  }
+  
+  .feedback-wrapper .section-title {
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 60px;
+  }
+  
+  .feedback-wrapper .feedback-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  
+  .feedback-wrapper .feedback-card {
+    flex: 1;
+    min-width: 300px;
+    max-width: 350px;
+    text-align: left;
+  }
+  
+  .feedback-wrapper .quote {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .feedback-wrapper .feedback-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .feedback-wrapper .feedback-text {
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .feedback-wrapper .feedback-author {
+    font-size: 16px;
+  }
+
+  .contact-wrapper {
+    display: flex;
+    max-height: 60vh;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .contact-wrapper .image-section {
+    flex: 1;
+    background: url('../assets/Contact.jpg') no-repeat center center/cover;
+  }
+  
+  .contact-wrapper .info-section {
+    flex: 1;
+    background-color: #f7f6f1;
+    padding: 100px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #000;
+  }
+  
+  .contact-wrapper .info-section h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 60px;
+  }
+  
+  .contact-wrapper .info-block {
+    margin-bottom: 40px;
+  }
+  
+  .contact-wrapper .info-block h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .contact-wrapper .info-block p {
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  .footer-text {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    padding: 8px 0;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .footer-text {
+    background-color: #111;
+    color: #aaa;
+    border-top: 1px solid #333;
+  }
   
