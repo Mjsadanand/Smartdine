@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Frontend URL
+  origin: 'https://smartdine.onrender.com', // Frontend URL
   credentials: true, // Allow credentials (cookies)
 }));
 
