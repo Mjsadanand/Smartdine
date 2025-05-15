@@ -45,19 +45,25 @@ app.use(passport.session());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-// Routes
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/restaurant', restaurantRoutes);
 app.use('/api/menu', menuRoutes);
 
 app.post('/api/store-interaction', checkConsent, (req, res) => {
-  // Store user interaction
   res.json({ msg: 'Interaction stored' });
 });
 
+// Health check or root
 app.get('/', (req, res) => res.send('Server is running!'));
 
+// Catch-all: serve index.html for client-side routing (must be after API routes)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -321,6 +321,31 @@ router.get('/:menuId/view', async (req, res) => {
   }
 });
 
+// Get QR code for a specific restaurant
+router.get('/restaurant/:restaurantId/qr', async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+
+    // Find the first menu for the restaurant
+    const menu = await Menu.findOne({ restaurantId, qrCode: { $exists: true } });
+
+    if (!menu || !menu.qrCode || !menu.qrCode.redirectUrl) {
+      return res.status(404).json({ msg: 'QR code not found for this restaurant' });
+    }
+
+    // Return the QR code URL and restaurant details
+    const restaurant = await Restaurant.findById(restaurantId);
+    res.json({
+      qrCode: menu.qrCode, // Include the redirect URL
+      restaurant,
+    });
+  } catch (error) {
+    console.error('Error fetching QR code:', error);
+    res.status(500).json({ msg: 'Failed to fetch QR code' });
+  }
+});
+
+
 // Get restaurant details by menuId
 router.get('/:menuId/restaurant', async (req, res) => {
   try {
@@ -371,30 +396,6 @@ router.post('/upload-qr', async (req, res) => {
   } catch (error) {
     console.error('Error uploading QR code:', error);
     res.status(500).json({ message: 'Failed to upload QR code' });
-  }
-});
-
-// Get QR code for a specific restaurant
-router.get('/restaurant/:restaurantId/qr', async (req, res) => {
-  try {
-    const { restaurantId } = req.params;
-
-    // Find the first menu for the restaurant
-    const menu = await Menu.findOne({ restaurantId, qrCode: { $exists: true } });
-
-    if (!menu || !menu.qrCode || !menu.qrCode.redirectUrl) {
-      return res.status(404).json({ msg: 'QR code not found for this restaurant' });
-    }
-
-    // Return the QR code URL and restaurant details
-    const restaurant = await Restaurant.findById(restaurantId);
-    res.json({
-      qrCode: menu.qrCode, // Include the redirect URL
-      restaurant,
-    });
-  } catch (error) {
-    console.error('Error fetching QR code:', error);
-    res.status(500).json({ msg: 'Failed to fetch QR code' });
   }
 });
 
