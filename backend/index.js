@@ -14,6 +14,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { checkConsent } from './middleware/consentMiddleware.js';
 import cookieParser from 'cookie-parser';
+import Visitor from './models/Visitor.js';
 
 dotenv.config();
 
@@ -53,8 +54,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api/restaurant', restaurantRoutes);
 app.use('/api/menu', menuRoutes);
 
-app.post('/api/store-interaction', checkConsent, (req, res) => {
-  res.json({ msg: 'Interaction stored' });
+app.post('/api/store-interaction', async (req, res) => {
+  try {
+    const { name, mobile, menuId } = req.body;
+    if (!name || !mobile || !menuId) return res.status(400).json({ error: 'Missing fields' });
+    await Visitor.create({ name, mobile, menuId });
+    res.json({ msg: 'Interaction stored' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to store interaction' });
+  }
 });
 
 // Health check or root

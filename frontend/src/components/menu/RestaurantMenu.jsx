@@ -10,6 +10,15 @@ const RestaurantMenu = () => {
   const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category
   const [selectedItem, setSelectedItem] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false); // Track theme
+  const [showVisitorForm, setShowVisitorForm] = useState(true);
+  const [visitor, setVisitor] = useState({ name: '', mobile: '' });
+  const [submitting, setSubmitting] = useState(false);
+
+  // Check localStorage to avoid showing the form again in the same session
+  useEffect(() => {
+    const visited = localStorage.getItem(`visited_menu_${menuId}`);
+    if (visited) setShowVisitorForm(false);
+  }, [menuId]);
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -53,6 +62,54 @@ const RestaurantMenu = () => {
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode); // Toggle theme
   };
+
+  const handleVisitorSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await axios.post('https://smartdine.onrender.com/api/store-interaction', {
+        ...visitor,
+        menuId,
+      });
+      localStorage.setItem(`visited_menu_${menuId}`, 'true');
+      setShowVisitorForm(false);
+    // eslint-disable-next-line no-unused-vars
+    } catch (err) {
+      alert('Failed to submit. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (showVisitorForm) {
+    return (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <h2>Welcome! Please enter your details</h2>
+          <form onSubmit={handleVisitorSubmit}>
+            <input
+              type="text"
+              placeholder="Your Name"
+              value={visitor.name}
+              onChange={e => setVisitor({ ...visitor, name: e.target.value })}
+              required
+            />
+            <input
+              type="tel"
+              placeholder="Mobile Number"
+              value={visitor.mobile}
+              onChange={e => setVisitor({ ...visitor, mobile: e.target.value })}
+              required
+              pattern="[0-9]{10}"
+            />
+            <button type="submit" disabled={submitting}>
+              {submitting ? 'Submitting...' : 'Continue'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   if (!restaurant || !menu) return <div>Loading...</div>;
 

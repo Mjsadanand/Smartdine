@@ -243,7 +243,7 @@ const MenuCreation = () => {
       });
 
       console.log('QR code uploaded successfully:', response.data);
-      alert('QR code uploaded to Cloudinary!');
+      alert('Your Menu is now public!');
     } catch (error) {
       console.error('Error uploading QR code:', error);
       alert('Failed to upload QR code.');
