@@ -14,7 +14,7 @@ function Hotel() {
   useEffect(() => {
   const fetchRestaurants = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/restaurant'); // Correct API endpoint
+      const response = await axios.get('https://smartdine.onrender.com/api/restaurant'); // Correct API endpoint
       setRestaurants(response.data);
     } catch (error) {
       console.error('Error fetching restaurants:', error);
@@ -27,7 +27,7 @@ function Hotel() {
   // Fetch QR code for a specific restaurant
   const handleRestaurantClick = async (restaurantId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/menu/restaurant/${restaurantId}/qr`);
+      const response = await axios.get(`https://smartdine.onrender.com/api/menu/restaurant/${restaurantId}/qr`);
       setQrCodeUrl(response.data.qrCode.redirectUrl); // Use the redirect URL from the backend
       setSelectedRestaurant(response.data.restaurant); // Set the selected restaurant
       setShowQrPopup(true); // Show the QR popup

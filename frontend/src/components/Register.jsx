@@ -29,7 +29,7 @@ const Register = () => {
   };
 
   const handleGoogleSignup = () => {
-    window.open('http://localhost:5000/api/auth/google', '_self');
+    window.open('https://smartdine.onrender.com/api/auth/google', '_self');
   };
 
   return (

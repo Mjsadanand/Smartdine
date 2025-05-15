@@ -48,7 +48,7 @@ const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
       let response;
       if (editRestaurant) {
         response = await axios.put(
-          `http://localhost:5000/api/restaurant/update/${editRestaurant._id}`,
+          `https://smartdine.onrender.com/api/restaurant/update/${editRestaurant._id}`,
           data,
           { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
         );
@@ -56,7 +56,7 @@ const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
         alert('Restaurant updated successfully!');
       } else {
         response = await axios.post(
-          'http://localhost:5000/api/restaurant/add',
+          'https://smartdine.onrender.com/api/restaurant/add',
           data,
           { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
         );

@@ -55,7 +55,7 @@ const MenuCreation = () => {
   // Fetch Menus
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/menu/${restaurantId}`)
+      .get(`https://smartdine.onrender.com/api/menu/${restaurantId}`)
       .then((res) => {
         setMenus(res.data);
         if (!selectedMenu && res.data.length > 0) {
@@ -70,9 +70,9 @@ const MenuCreation = () => {
     setLoading(true); // Start loading
     try {
       if (isEditingMenu) {
-        await axios.put(`http://localhost:5000/api/menu/${selectedMenu._id}`, menuForm);
+        await axios.put(`https://smartdine.onrender.com/api/menu/${selectedMenu._id}`, menuForm);
       } else {
-        await axios.post(`http://localhost:5000/api/menu`, {
+        await axios.post(`https://smartdine.onrender.com/api/menu`, {
           ...menuForm,
           restaurantId,
           categories: [],
@@ -89,7 +89,7 @@ const MenuCreation = () => {
   const handleDeleteMenu = async (menuId) => {
     setLoading(true); // Start loading
     try {
-      await axios.delete(`http://localhost:5000/api/menu/${menuId}`);
+      await axios.delete(`https://smartdine.onrender.com/api/menu/${menuId}`);
       window.location.reload(); // Reload the page
     } catch (err) {
       console.error('Error deleting menu:', err);
@@ -101,7 +101,7 @@ const MenuCreation = () => {
   const handleTogglePublish = async (menuId, isPublished) => {
     setLoading(true); // Start loading
     try {
-      const res = await axios.put(`http://localhost:5000/api/menu/${menuId}/publish`);
+      const res = await axios.put(`https://smartdine.onrender.com/api/menu/${menuId}/publish`);
       const updatedMenu = res.data.menu;
       setMenus(menus.map((menu) => (menu._id === menuId ? updatedMenu : menu)));
 
@@ -121,8 +121,8 @@ const MenuCreation = () => {
     setLoading(true); // Start loading
     try {
       const url = isEditingCategory
-        ? `http://localhost:5000/api/menu/${selectedMenu._id}/category/${currentCategoryId}`
-        : `http://localhost:5000/api/menu/${selectedMenu._id}/category`;
+        ? `https://smartdine.onrender.com/api/menu/${selectedMenu._id}/category/${currentCategoryId}`
+        : `https://smartdine.onrender.com/api/menu/${selectedMenu._id}/category`;
       const method = isEditingCategory ? axios.put : axios.post;
       await method(url, { name: categoryName });
       window.location.reload(); // Reload the page
@@ -136,7 +136,7 @@ const MenuCreation = () => {
   const handleDeleteCategory = async (menuId, categoryId) => {
     setLoading(true); // Start loading
     try {
-      await axios.delete(`http://localhost:5000/api/menu/${menuId}/category/${categoryId}`);
+      await axios.delete(`https://smartdine.onrender.com/api/menu/${menuId}/category/${categoryId}`);
       window.location.reload(); // Reload the page
     } catch (err) {
       console.error('Error deleting category:', err);
@@ -156,8 +156,8 @@ const MenuCreation = () => {
 
     try {
       const url = isEditingItem
-        ? `http://localhost:5000/api/menu/${selectedMenu._id}/category/${currentCategoryId}/item/${currentItemId}`
-        : `http://localhost:5000/api/menu/${selectedMenu._id}/category/${currentCategoryId}/item`;
+        ? `https://smartdine.onrender.com/api/menu/${selectedMenu._id}/category/${currentCategoryId}/item/${currentItemId}`
+        : `https://smartdine.onrender.com/api/menu/${selectedMenu._id}/category/${currentCategoryId}/item`;
 
       const method = isEditingItem ? axios.put : axios.post;
 
@@ -178,7 +178,7 @@ const MenuCreation = () => {
     setLoading(true); // Start loading
     try {
       await axios.delete(
-        `http://localhost:5000/api/menu/${menuId}/category/${categoryId}/item/${itemId}`
+        `https://smartdine.onrender.com/api/menu/${menuId}/category/${categoryId}/item/${itemId}`
       );
       window.location.reload(); // Reload the page
     } catch (err) {
@@ -235,7 +235,7 @@ const MenuCreation = () => {
     document.body.removeChild(tempDiv);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/menu/upload-qr', {
+      const response = await axios.post('https://smartdine.onrender.com/api/menu/upload-qr', {
         restaurantId: selectedMenu.restaurantId,
         menuId: selectedMenu._id,
         qrImage,

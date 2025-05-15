@@ -14,7 +14,7 @@ const RestaurantMenu = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const menuData = await axios.get(`http://localhost:5000/api/menu/${menuId}/view`);
+        const menuData = await axios.get(`https://smartdine.onrender.com/api/menu/${menuId}/view`);
         setMenu(menuData.data);
         setSelectedCategory(menuData.data.categories[0]); // Default to the first category
       } catch (error) {
@@ -28,7 +28,7 @@ const RestaurantMenu = () => {
   useEffect(() => {
     const fetchRestaurantByMenuId = async () => {
       try {
-        const resData = await axios.get(`http://localhost:5000/api/menu/${menuId}/restaurant`);
+        const resData = await axios.get(`https://smartdine.onrender.com/api/menu/${menuId}/restaurant`);
         setRestaurant(resData.data);
       } catch (error) {
         console.error('Error fetching restaurant by menuId:', error);

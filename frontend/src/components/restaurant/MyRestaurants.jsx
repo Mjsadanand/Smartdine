@@ -27,7 +27,7 @@ const MyRestaurants = () => {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/restaurant/${username}`, {
+        const res = await axios.get(`https://smartdine.onrender.com/api/restaurant/${username}`, {
           withCredentials: true, // Ensure cookies are sent with the request
         });
         setRestaurants(res.data);
@@ -51,7 +51,7 @@ const MyRestaurants = () => {
 
   const handleDeleteRestaurant = async (restaurantId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/restaurant/delete/${restaurantId}`, {
+      await axios.delete(`https://smartdine.onrender.com/api/restaurant/delete/${restaurantId}`, {
         withCredentials: true,
       });
       setRestaurants(restaurants.filter((r) => r._id !== restaurantId));
