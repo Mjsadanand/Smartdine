@@ -1,4 +1,7 @@
+/* Light background and blue accents */
 html, body {
+  background: #f6f8fa;
+  color: #222;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -8,6 +11,8 @@ html, body {
 .restaurant-container {
   min-height: 100vh;
   min-width: 100vw;
+  background: #f6f8fa;
+  color: #222;
 }
 
 /* Header styles */
@@ -16,8 +21,8 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  border-bottom: 2px solid #1976d2;
 }
 
 .profile-section {
@@ -36,12 +41,12 @@ html, body {
 .username {
   font-size: 22px;
   font-weight: bold;
-  color: #0056b3;
+  color: #1976d2;
 }
 
 .logout-button {
   padding: 8px 16px;
-  background-color: #dc3545;
+  background-color: #1976d2;
   color: white;
   border: none;
   border-radius: 4px;
@@ -49,7 +54,7 @@ html, body {
 }
 
 .logout-button:hover {
-  background-color: #c82333;
+  background-color: #1565c0;
 }
 
 .restaurant-container {
@@ -59,8 +64,6 @@ html, body {
   margin: 0; 
   display: flex;
   flex-direction: column; 
-  background: black; 
-  color: white;
 }
 
 .restaurant-grid {
@@ -75,17 +78,17 @@ html, body {
 .restaurant-card, .add-restaurant-card {
   width: 250px;
   height: 350px;
-  background: #222;
+  background: #fff;
   border-radius: 10px;
   padding: 20px;
   align-items: center;
   text-align: center;
   cursor: pointer;
-  color: white;
+  color: #222;
+  border: 1.5px solid #1976d2;
 }
 
 .restaurant-card {
-  border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
@@ -94,7 +97,7 @@ html, body {
 
 .restaurant-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.08);
 }
 
 .restaurant-card img {
@@ -128,21 +131,21 @@ html, body {
 }
 
 .edit-button {
-  background-color: #007bff;
+  background-color: #1976d2;
   color: white;
 }
 
 .edit-button:hover {
-  background-color: #0056b3;
+  background-color: #1565c0;
 }
 
 .delete-button {
-  background-color: #dc3545;
+  background-color: #e57373;
   color: white;
 }
 
 .delete-button:hover {
-  background-color: #c82333;
+  background-color: #d32f2f;
 }
 
 .add-restaurant-card {
@@ -150,14 +153,15 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px dashed #ddd;
+  border: 2px dashed #1976d2;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  background: #e3f2fd;
 }
 
 .add-restaurant-card:hover {
-  background-color: #f8f9fa;
+  background: #bbdefb;
 }
 
 .add-restaurant-card p {
@@ -177,14 +181,14 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(25, 118, 210, 0.08);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .popup-form {
-  background: white;
+  background: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -192,9 +196,10 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  border: 2px solid #1976d2;
 }
 .popup-form h2{
-  color: #000;
+  color: #1976d2;
 }
 .popup-form input {
   padding: 10px;
@@ -206,13 +211,13 @@ html, body {
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background: teal;
+  background: #1976d2;
   color: white;
   cursor: pointer;
 }
 
 .popup-form button:hover {
-  background: darkcyan;
+  background: #1565c0;
 }
 
 /* Adjust the top-bar to stay at the top */
@@ -221,16 +226,18 @@ html, body {
   /* justify-content: space-between; */
   align-items: center;
   /* background-color: #141313; */
-  color: white;
+  color: #1976d2;
   width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
+  background: #fff;
+  border-bottom: 2px solid #1976d2;
 }
 
 /* Greeting styles */
 .greeting {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #fff;
+  color: #1976d2;
 }
 
 /* Icon group styles */
@@ -241,13 +248,13 @@ html, body {
 
 .icon {
   font-size: 24px;
-  color: #6e6e6e;
+  color: #1976d2;
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .icon:hover {
-  color: #fff; /* Highlight icons on hover */
+  color: #0d47a1; /* Highlight icons on hover */
 }
 
 /* Profile dropdown styles */
@@ -261,14 +268,14 @@ html, body {
   flex-direction: column;
   top: 40px;
   right: 0;
-  background-color: #1c1c1c;
-  border: 1px solid #444;
+  background-color: #fff;
+  border: 1.5px solid #1976d2;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
   padding: 10px;
   width: 150px;
-  color: white;
+  color: #222;
 }
 
 .dropdown-item {
@@ -278,13 +285,13 @@ html, body {
 }
 
 .dropdown-item:hover {
-  background-color: #444;
+  background: #e3f2fd;
 }
 
 .dropdown-item.logout {
-  color: #ff4d4d;
+  color: #e57373;
 }
 
 .dropdown-item.logout:hover {
-  background-color: #ff6666;
+  background: #ffcdd2;
 }
