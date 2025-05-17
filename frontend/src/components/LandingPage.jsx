@@ -7,6 +7,7 @@ import menu1 from '../assets/Menu1.jpg';
 import menu2 from '../assets/Menu2.jpg';
 import menu3 from '../assets/Menu3.jpg';
 import qr from '../assets/QR1.jpg';
+import landingVideo from '../assets/backvideo.mp4';
 
 const LandingPage = () => {
     const navigateToSignup = () => {
@@ -15,22 +16,36 @@ const LandingPage = () => {
 
     return (
         <>
-            <div className="landing-container">
-                <div className="overlay"></div>
-                <div className="logo">SmartDine</div>
-                <nav className="landing-navbar">
-                    <ul>
-                        <li><Link to="/hotel">Hotels</Link></li>
-                        <li><Link to="/login">Login</Link></li>
-                        <li><Link to="/register">Sign Up</Link></li>
-                    </ul>
-                </nav>
-                <header className="landing-header">
-                    <h1>Welcome to <span>SmartDine</span></h1>
-                    <p>Your smart dining experience starts here.</p>
-                    <button className="landing-button" onClick={navigateToSignup}>Get Started</button>
-                </header>
+            {/* Video Background */}
+            <div className="landing-root">
+                <video
+                    className="landing-video-bg"
+                    src={landingVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                />
+                <div className="landing-overlay" />
+                <div className="landing-content">
+                    <div className="landing-header-bar">
+                        <div className="logo">SmartDine</div>
+                        <nav>
+                            <ul>
+                                <li><Link to="/hotel">Hotels</Link></li>
+                                <li><Link to="/login">Login</Link></li>
+                                <li><Link to="/register">Sign Up</Link></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <header className="landing-main-header">
+                        <h1>Welcome to <span>SmartDine</span></h1>
+                        <p>Your smart dining experience starts here.</p>
+                        <button className="landing-button" onClick={navigateToSignup}>Get Started</button>
+                    </header>
+                </div>
             </div>
+            {/* Existing content below the hero section */}
             <div className='body'>
                 <div className="container">
                     <div className="image-section"><img src={idli} alt="idli" /><img src={dosa} alt="dosa" /></div>
