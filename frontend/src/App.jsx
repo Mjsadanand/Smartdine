@@ -7,6 +7,7 @@ import MenuCreation from "./components/restaurant/MenuCreation.jsx";
 import RestaurantMenu from "./components/menu/RestaurantMenu.jsx";
 import CookieConsent from "react-cookie-consent";
 import Hotel from "./components/Hotel.jsx";
+import Dashboard from "./components/analytics/Dashboard.jsx";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/restaurant/:username/menu/:restaurantId" element={<MenuCreation />} />
         <Route path="/menu/:menuId" element={<RestaurantMenu />} />
         <Route path="/hotel" element={<Hotel />} />
+        <Route path="/dashboard/:username" element={<Dashboard />} />
       </Routes>
     </Router>
   );

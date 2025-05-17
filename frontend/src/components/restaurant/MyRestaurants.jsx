@@ -4,7 +4,7 @@ import axios from 'axios';
 import RestaurantCard from './RestaurantCard';
 import RestaurantPopup from './RestaurantPopup';
 import './restaurant.css';
-import { FaBell, FaUserCircle, FaPlus } from 'react-icons/fa';
+import { FaBell, FaUserCircle, FaPlus ,FaChartBar} from 'react-icons/fa';
 
 const MyRestaurants = () => {
   const { username } = useParams(); // Extract username from the URL
@@ -86,6 +86,12 @@ const MyRestaurants = () => {
         </span>
         <div className="icon-group">
           <FaBell className="icon" title="Notifications" />
+          <FaChartBar
+            className="icon"
+            title="Dashboard"
+            style={{ cursor: 'pointer', marginRight: '1rem' }}
+            onClick={() => navigate(`/dashboard/${username}`)}
+          />
           <div className="profile-dropdown">
             <FaUserCircle
               className="icon"

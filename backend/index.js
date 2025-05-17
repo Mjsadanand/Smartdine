@@ -15,6 +15,7 @@ import { dirname } from 'path';
 import { checkConsent } from './middleware/consentMiddleware.js';
 import cookieParser from 'cookie-parser';
 import Visitor from './models/Visitor.js';
+import analyticsRoutes from './routes/analyticsRoutes.js';
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use('/api/auth', authRoutes);
 app.use('/api/restaurant', restaurantRoutes);
 app.use('/api/menu', menuRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 app.post('/api/store-interaction', async (req, res) => {
   try {
