@@ -11,18 +11,40 @@
     font-family: 'Inter', sans-serif;
 }
 
+/* Blur and darken video background */
 .landing-video-bg {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     object-fit: cover;
     z-index: 0;
+    filter: blur(4px) brightness(0.6);
+    pointer-events: none;
 }
 
+/* Overlay for extra contrast */
 .landing-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(25, 118, 210, 0.25);
     z-index: 1;
+}
+
+/* Ensure all content is above video and overlay */
+.landing-content,
+.body,
+.menu-container1,
+.qr-container,
+.feedback-wrapper,
+.contact-wrapper,
+.footer-text {
+    position: relative;
+    z-index: 2;
+}
+
+/* Make hero text readable */
+.landing-main-header h1,
+.landing-main-header p {
+    text-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
 .landing-content {
