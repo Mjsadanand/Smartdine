@@ -59,7 +59,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.post('/api/store-interaction', async (req, res) => {
   try {
     const { name, mobile, menuId } = req.body;
-    if (!name || !mobile || !menuId) return res.status(400).json({ error: 'Missing fields' });
+    // No deduplication check here!
     await Visitor.create({ name, mobile, menuId });
     res.json({ msg: 'Interaction stored' });
   } catch (err) {

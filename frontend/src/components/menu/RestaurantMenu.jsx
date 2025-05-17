@@ -81,6 +81,16 @@ const RestaurantMenu = () => {
     }
   };
 
+  useEffect(() => {
+    // Always POST, even if localStorage says visited
+    axios.post('https://smartdine.onrender.com/api/store-interaction', {
+      name: visitor.name || 'Anonymous',
+      mobile: visitor.mobile || 'Unknown',
+      menuId,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuId]);
+
   if (showVisitorForm) {
     return (
       <div className="modal-overlay">
