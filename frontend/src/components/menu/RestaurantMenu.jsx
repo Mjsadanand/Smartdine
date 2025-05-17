@@ -17,7 +17,18 @@ const RestaurantMenu = () => {
   // Check localStorage to avoid showing the form again in the same session
   useEffect(() => {
     const visited = localStorage.getItem(`visited_menu_${menuId}`);
-    if (visited) setShowVisitorForm(false);
+    if (visited) {
+      setShowVisitorForm(false);
+      const name = localStorage.getItem(`visitor_name_${menuId}`) || 'Anonymous';
+      const mobile = localStorage.getItem(`visitor_mobile_${menuId}`) || 'Unknown';
+      axios.post('https://smartdine.onrender.com/api/store-interaction', {
+        name,
+        mobile,
+        menuId,
+      });
+    } else {
+      setShowVisitorForm(true);
+    }
   }, [menuId]);
 
   useEffect(() => {
@@ -72,6 +83,8 @@ const RestaurantMenu = () => {
         menuId,
       });
       localStorage.setItem(`visited_menu_${menuId}`, 'true');
+      localStorage.setItem(`visitor_name_${menuId}`, visitor.name);
+      localStorage.setItem(`visitor_mobile_${menuId}`, visitor.mobile);
       setShowVisitorForm(false);
     // eslint-disable-next-line no-unused-vars
     } catch (err) {
@@ -80,16 +93,6 @@ const RestaurantMenu = () => {
       setSubmitting(false);
     }
   };
-
-  useEffect(() => {
-    // Always POST, even if localStorage says visited
-    axios.post('https://smartdine.onrender.com/api/store-interaction', {
-      name: visitor.name || 'Anonymous',
-      mobile: visitor.mobile || 'Unknown',
-      menuId,
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [menuId]);
 
   if (showVisitorForm) {
     return (
