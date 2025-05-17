@@ -64,4 +64,27 @@ router.get('/recent-activity/:username', async (req, res) => {
   })));
 });
 
+// Menu/Category/Item counts for dashboard
+router.get('/menu-stats/:username', async (req, res) => {
+  const restaurants = await Restaurant.find({ username: req.params.username });
+  const restaurantIds = restaurants.map(r => r._id);
+  const menus = await Menu.find({ restaurantId: { $in: restaurantIds } });
+
+  let totalCategories = 0;
+  let totalItems = 0;
+
+  menus.forEach(menu => {
+    totalCategories += menu.categories.length;
+    menu.categories.forEach(cat => {
+      totalItems += cat.items.length;
+    });
+  });
+
+  res.json({
+    totalMenus: menus.length,
+    totalCategories,
+    totalItems,
+  });
+});
+
 export default router;
