@@ -134,7 +134,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {recentActivity.map((row, idx) => (
+              {recentActivity.slice(0, 6).map((row, idx) => (
                 <tr key={idx} style={{ borderTop: "1px solid #e3f2fd" }}>
                   <td style={{ padding: "0.75rem" }}>{new Date(row.timestamp).toLocaleString()}</td>
                   <td style={{ padding: "0.75rem" }}>{row.name}</td>
