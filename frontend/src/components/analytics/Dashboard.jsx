@@ -93,15 +93,25 @@ const Dashboard = () => {
       <section style={{ marginBottom: "2rem" }}>
         <h3 style={{ color: "#1976d2" }}>QR Scan Trends</h3>
         {qrTrends.length > 0 ? (
-          <Line data={{
-            labels: qrTrends.map(d => d.date),
-            datasets: [{
-              label: 'Scans',
-              data: qrTrends.map(d => d.count),
-              borderColor: '#1976d2',
-              backgroundColor: 'rgba(25,118,210,0.1)'
-            }]
-          }} />
+          <div style={{ maxWidth: 400, margin: "0 auto" }}>
+            <Line
+              data={{
+                labels: qrTrends.map(d => d.date),
+                datasets: [{
+                  label: 'Scans',
+                  data: qrTrends.map(d => d.count),
+                  borderColor: '#1976d2',
+                  backgroundColor: 'rgba(25,118,210,0.1)'
+                }]
+              }}
+              options={{
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } },
+                elements: { point: { radius: 2 } }
+              }}
+              height={180}
+            />
+          </div>
         ) : <div style={{ color: "#888" }}>No data</div>}
       </section>
 
@@ -120,7 +130,7 @@ const Dashboard = () => {
               <tr style={{ background: "#e3f2fd" }}>
                 <th style={{ padding: "0.75rem", color: "#1976d2" }}>Timestamp</th>
                 <th style={{ padding: "0.75rem", color: "#1976d2" }}>Name</th>
-                <th style={{ padding: "0.75rem", color: "#1976d2" }}>Items Viewed</th>
+                <th style={{ padding: "0.75rem", color: "#1976d2" }}>Menu Viewed</th>
               </tr>
             </thead>
             <tbody>
@@ -128,7 +138,7 @@ const Dashboard = () => {
                 <tr key={idx} style={{ borderTop: "1px solid #e3f2fd" }}>
                   <td style={{ padding: "0.75rem" }}>{new Date(row.timestamp).toLocaleString()}</td>
                   <td style={{ padding: "0.75rem" }}>{row.name}</td>
-                  <td style={{ padding: "0.75rem" }}>{row.itemsViewed ? row.itemsViewed.join(', ') : '-'}</td>
+                  <td style={{ padding: "0.75rem" }}>{row.menuViewed}</td>
                 </tr>
               ))}
             </tbody>

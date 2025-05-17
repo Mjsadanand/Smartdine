@@ -47,10 +47,11 @@ router.get('/device-stats/:username', async (req, res) => {
 
 // 5. Recent Customer Activity
 router.get('/recent-activity/:username', async (req, res) => {
-  // For demo, return last 10 visitors
   const restaurants = await Restaurant.find({ username: req.params.username });
   const restaurantIds = restaurants.map(r => r._id);
   const menus = await Menu.find({ restaurantId: { $in: restaurantIds } });
+  const menuMap = {};
+  menus.forEach(m => { menuMap[m._id.toString()] = m.name; });
   const menuIds = menus.map(m => m._id);
 
   const visitors = await Visitor.find({ menuId: { $in: menuIds } })
@@ -60,7 +61,7 @@ router.get('/recent-activity/:username', async (req, res) => {
   res.json(visitors.map(v => ({
     timestamp: v.createdAt,
     name: v.name,
-    itemsViewed: v.itemsViewed || [] // If you track this
+    menuViewed: menuMap[v.menuId?.toString()] || 'Unknown'
   })));
 });
 
