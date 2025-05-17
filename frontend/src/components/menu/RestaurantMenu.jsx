@@ -17,10 +17,10 @@ const RestaurantMenu = () => {
   // Check localStorage to avoid showing the form again in the same session
   useEffect(() => {
     const visited = localStorage.getItem(`visited_menu_${menuId}`);
-    if (visited) {
+    const name = localStorage.getItem(`visitor_name_${menuId}`);
+    const mobile = localStorage.getItem(`visitor_mobile_${menuId}`);
+    if (visited && name && mobile) {
       setShowVisitorForm(false);
-      const name = localStorage.getItem(`visitor_name_${menuId}`) || 'Anonymous';
-      const mobile = localStorage.getItem(`visitor_mobile_${menuId}`) || 'Unknown';
       axios.post('https://smartdine.onrender.com/api/store-interaction', {
         name,
         mobile,
