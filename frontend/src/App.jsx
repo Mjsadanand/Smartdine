@@ -9,7 +9,7 @@ import CookieConsent from "react-cookie-consent";
 import Hotel from "./components/Hotel.jsx";
 import Dashboard from "./components/analytics/Dashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import OauthSuccess from "./components/OauthSuccess";
+import OauthSuccess from "./components/auth/OauthSuccess.jsx";
 
 function App() {
   return (
