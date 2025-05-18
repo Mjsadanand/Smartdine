@@ -1,15 +1,23 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import  { useEffect, useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token'); // Check if the token exists
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const location = useLocation();
 
-  if (!token) {
-    // If no token, redirect to the login page
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, [location.pathname]); // Re-check on every route change
+
+  if (isAuthenticated === null) {
+    return null;
+  }
+
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // If authenticated, render the child components
   return children;
 };
 
