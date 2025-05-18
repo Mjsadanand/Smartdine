@@ -141,100 +141,192 @@
     transform: translateY(-2px) scale(1.04);
 }
 
-@media (max-width: 900px) {
-  .landing-header-bar {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.2rem 1rem 0 1rem;
-  }
-  .landing-main-header h1 {
-    font-size: 2.2rem;
-  }
-  .landing-main-header p {
-    font-size: 1rem;
-  }
-  .landing-button {
-    font-size: 1rem;
-    padding: 0.7rem 1.5rem;
-  }
-  .body {
-    flex-direction: column;
-    height: auto;
-    padding: 1rem 0;
-  }
-  .container {
-    flex-direction: column;
-    gap: 30px;
-    max-width: 95vw;
-  }
-  .image-section img {
-    width: 120px;
-  }
-  .image-section img:nth-child(2) {
-    top: 10px;
-  }
-  .menu-container1 {
-    flex-direction: column;
-    padding: 20px;
-    gap: 30px;
-  }
-  .menu-text1, .menu-items1 {
-    width: 100%;
-  }
-  .menu-items1 {
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
-  .menu-item1 img {
-    width: 90vw;
-    max-width: 300px;
-    height: 180px;
-  }
-  .qr-container {
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-  }
-  .qr-image {
-    margin-left: 0;
-    width: 100%;
-    text-align: center;
-  }
-  .qr-image img {
-    width: 80vw;
-    max-width: 300px;
-  }
-  .qr-text {
-    padding-left: 0;
-    margin-top: 10px;
-    width: 100%;
-  }
-  .feedback-wrapper {
-    padding: 40px 10px;
-  }
-  .feedback-wrapper .feedback-container {
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
-  .feedback-wrapper .feedback-card {
-    min-width: 220px;
-    max-width: 95vw;
-  }
-  .contact-wrapper {
-    flex-direction: column;
-    max-height: none;
-  }
-  .contact-wrapper .image-section {
-    min-height: 180px;
-    height: 180px;
-    background-size: cover;
-  }
-  .contact-wrapper .info-section {
-    padding: 40px 10px;
-  }
+@media (max-width: 700px) {
+    .landing-header-bar {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.2rem 1rem 0 1rem;
+    }
+    .landing-main-header h1 {
+        font-size: 2rem;
+    }
+    .landing-main-header p {
+        font-size: 1rem;
+    }
+    .landing-button {
+        font-size: 1rem;
+        padding: 0.7rem 1.5rem;
+    }
 }
+
+.landing-container {
+    position: relative;
+    background-image: url('../assets/back.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.landing-navbar {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.landing-navbar ul {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.landing-navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.landing-navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.landing-header {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-align: center;
+    max-width: 800px;
+    margin-top: 100px;
+}
+
+.landing-header h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #f4c20d;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.landing-header h1 span {
+    color: #ffffff;
+    background-color: rgba(0,0,0,0.4);
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+}
+
+.landing-header p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.landing-button {
+    padding: 0.8rem 2rem;
+    background-color: #f4c20d;
+    color: #333;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.landing-button:hover {
+    background-color: #ffeb3b;
+    transform: scale(1.05);
+}
+
+.body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f8f2;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 75vh;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 100px;
+    max-width: 1000px;
+}
+.container h2{
+    font-family: "Poppins", sans-serif;
+}
+.image-section {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+}
+
+.image-section img {
+    width: 250px;
+    height: auto;
+}
+
+
+.image-section img:nth-child(2) {
+    position: relative;
+    top: 40px;
+}
+
+.text-section {
+    max-width: 1000px;
+}
+
+.text-section h2 {
+    font-size: 32px;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.text-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    text-align: justify;
+}
+
+button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #333;
+}
+
 
 @media (max-width: 768px) {
     .container {
@@ -626,67 +718,4 @@ hr {
   margin: 2rem 0;
   border: none;
   border-top: 1px solid #ddd;
-}
-
-@media (max-width: 600px) {
-  .landing-header-bar {
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.7rem 0.5rem 0 0.5rem;
-  }
-  .logo {
-    font-size: 1.2rem;
-  }
-  .landing-main-header h1 {
-    font-size: 1.3rem;
-  }
-  .landing-main-header p {
-    font-size: 0.9rem;
-  }
-  .landing-main-header {
-    min-height: 40vh;
-    padding: 1rem 0.5rem;
-  }
-  .landing-button {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-  }
-  .body {
-    padding: 0.5rem 0;
-  }
-  .container {
-    gap: 15px;
-  }
-  .image-section img {
-    width: 80px;
-  }
-  .menu-item1 img {
-    width: 90vw;
-    max-width: 200px;
-    height: 100px;
-  }
-  .qr-image img {
-    width: 90vw;
-    max-width: 200px;
-  }
-  .feedback-wrapper .section-title {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-  .feedback-wrapper .feedback-card {
-    min-width: 120px;
-    max-width: 98vw;
-  }
-  .contact-wrapper .info-section h1 {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-  .contact-wrapper .info-block h4,
-  .contact-wrapper .info-block p {
-    font-size: 0.9rem;
-  }
-  .footer-text {
-    font-size: 12px;
-    padding: 4px 0;
-  }
 }
