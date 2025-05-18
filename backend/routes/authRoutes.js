@@ -2,6 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import { register, login } from '../controllers/authController.js';
 import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -17,8 +18,14 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
   try {
     const user = await User.findOne({ googleId: req.user.googleId });
     if (user) {
-      const username = user.username; 
-      res.redirect(`https://smartdine.onrender.com/restaurant/${username}`); // Redirect to the user's restaurant page
+      // Generate JWT token
+      const token = jwt.sign(
+        { id: user._id, username: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' }
+      );
+      // Redirect with token and username as query params
+      res.redirect(`https://smartdine.onrender.com/oauth-success?token=${token}&username=${user.username}`);
     } else {
       res.redirect('/login/failed');
     }

@@ -9,6 +9,7 @@ import CookieConsent from "react-cookie-consent";
 import Hotel from "./components/Hotel.jsx";
 import Dashboard from "./components/analytics/Dashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import OauthSuccess from "./components/OauthSuccess";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
         {/* Public route: menu viewing */}
         <Route path="/menu/:menuId" element={<RestaurantMenu />} />
         <Route path="/hotel" element={<Hotel />} />
+        <Route path="/oauth-success" element={<OauthSuccess />} />
       </Routes>
     </Router>
   );
