@@ -128,9 +128,9 @@ const Dashboard = () => {
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ background: "#e3f2fd" }}>
-                <th style={{ padding: "0.75rem", color: "#1976d2" }}>Timestamp</th>
-                <th style={{ padding: "0.75rem", color: "#1976d2" }}>Name</th>
-                <th style={{ padding: "0.75rem", color: "#1976d2" }}>Menu Viewed</th>
+                <th style={{ padding: "0.7rem", color: "#1976d2" }}>Timestamp</th>
+                <th style={{ padding: "0.7rem", color: "#1976d2" }}>Name</th>
+                <th style={{ padding: "0.7rem", color: "#1976d2" }}>Menu Viewed</th>
               </tr>
             </thead>
             <tbody>
