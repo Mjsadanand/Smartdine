@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import './styles.css';
 
 ChartJS.register(
   CategoryScale,
@@ -36,64 +37,30 @@ const Dashboard = () => {
   }, [username]);
 
   return (
-    <div style={{
-      background: "#f6f8fa",
-      minHeight: "100vh",
-      padding: "2rem",
-      fontFamily: "Inter, Arial, sans-serif"
-    }}>
-      <h2 style={{ color: "#1976d2", marginBottom: "2rem" }}>Analytics Dashboard</h2>
+    <div className="dashboard-root">
+      <h2 className="dashboard-title">Analytics Dashboard</h2>
       
       {/* Menu Stats Card */}
-      <div style={{
-        display: "flex",
-        gap: "2rem",
-        marginBottom: "2rem",
-        flexWrap: "wrap"
-      }}>
-        <div style={{
-          background: "#fff",
-          border: "2px solid #1976d2",
-          borderRadius: "1rem",
-          padding: "1.5rem 2rem",
-          minWidth: "180px",
-          textAlign: "center",
-          boxShadow: "0 2px 8px rgba(25,118,210,0.04)"
-        }}>
-          <div style={{ fontSize: "2.2rem", color: "#1976d2", fontWeight: 700 }}>{menuStats.totalMenus}</div>
-          <div style={{ color: "#1976d2", fontWeight: 500 }}>Menus</div>
+      <div className="stats-row">
+        <div className="stats-card">
+          <div className="stats-number">{menuStats.totalMenus}</div>
+          <div className="stats-label">Menus</div>
         </div>
-        <div style={{
-          background: "#fff",
-          border: "2px solid #1976d2",
-          borderRadius: "1rem",
-          padding: "1.5rem 2rem",
-          minWidth: "180px",
-          textAlign: "center",
-          boxShadow: "0 2px 8px rgba(25,118,210,0.04)"
-        }}>
-          <div style={{ fontSize: "2.2rem", color: "#1976d2", fontWeight: 700 }}>{menuStats.totalCategories}</div>
-          <div style={{ color: "#1976d2", fontWeight: 500 }}>Categories</div>
+        <div className="stats-card">
+          <div className="stats-number">{menuStats.totalCategories}</div>
+          <div className="stats-label">Categories</div>
         </div>
-        <div style={{
-          background: "#fff",
-          border: "2px solid #1976d2",
-          borderRadius: "1rem",
-          padding: "1.5rem 2rem",
-          minWidth: "180px",
-          textAlign: "center",
-          boxShadow: "0 2px 8px rgba(25,118,210,0.04)"
-        }}>
-          <div style={{ fontSize: "2.2rem", color: "#1976d2", fontWeight: 700 }}>{menuStats.totalItems}</div>
-          <div style={{ color: "#1976d2", fontWeight: 500 }}>Items</div>
+        <div className="stats-card">
+          <div className="stats-number">{menuStats.totalItems}</div>
+          <div className="stats-label">Items</div>
         </div>
       </div>
 
       {/* QR Scan Trends */}
-      <section style={{ marginBottom: "2rem" }}>
-        <h3 style={{ color: "#1976d2" }}>QR Scan Trends</h3>
+      <section>
+        <h3 className="section-title">QR Scan Trends</h3>
         {qrTrends.length > 0 ? (
-          <div style={{ maxWidth: 400, margin: "0 auto" }}>
+          <div className="dashboard-chart-container">
             <Line
               data={{
                 labels: qrTrends.map(d => d.date),
@@ -112,33 +79,27 @@ const Dashboard = () => {
               height={180}
             />
           </div>
-        ) : <div style={{ color: "#888" }}>No data</div>}
+        ) : <div style={{ color: "#888", textAlign: "center" }}>No data</div>}
       </section>
 
       {/* Recent Customer Activity */}
       <section>
-        <h3 style={{ color: "#1976d2" }}>Recent Customer Activity</h3>
-        <div style={{
-          overflowX: "auto",
-          background: "#fff",
-          border: "1.5px solid #1976d2",
-          borderRadius: "8px",
-          boxShadow: "0 2px 8px rgba(25,118,210,0.04)"
-        }}>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <h3 className="section-title">Recent Customer Activity</h3>
+        <div className="dashboard-table-container">
+          <table className="dashboard-table">
             <thead>
-              <tr style={{ background: "#e3f2fd" }}>
-                <th style={{ padding: "0.7rem", color: "#1976d2" }}>Timestamp</th>
-                <th style={{ padding: "0.7rem", color: "#1976d2" }}>Name</th>
-                <th style={{ padding: "0.7rem", color: "#1976d2" }}>Menu Viewed</th>
+              <tr>
+                <th>Timestamp</th>
+                <th>Name</th>
+                <th>Menu Viewed</th>
               </tr>
             </thead>
             <tbody>
               {recentActivity.slice(0, 6).map((row, idx) => (
-                <tr key={idx} style={{ borderTop: "1px solid #e3f2fd" }}>
-                  <td style={{ padding: "0.75rem" }}>{new Date(row.timestamp).toLocaleString()}</td>
-                  <td style={{ padding: "0.75rem" }}>{row.name}</td>
-                  <td style={{ padding: "0.75rem" }}>{row.menuViewed}</td>
+                <tr key={idx}>
+                  <td>{new Date(row.timestamp).toLocaleString()}</td>
+                  <td>{row.name}</td>
+                  <td>{row.menuViewed}</td>
                 </tr>
               ))}
             </tbody>
