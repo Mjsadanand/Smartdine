@@ -35,8 +35,7 @@
 .menu-container1,
 .qr-container,
 .feedback-wrapper,
-.contact-wrapper,
-.footer-text {
+.contact-wrapper{
     position: relative;
     z-index: 2;
 }
@@ -208,6 +207,7 @@
   }
   .menu-item1 img {
     width: 90vw;
+    flex-direction: row;
     max-width: 300px;
     height: 180px;
   }
@@ -316,7 +316,11 @@
   }
   .footer-text {
     font-size: 12px;
-    padding: 4px 0;
+    /* padding: 4px 0; */
+  }
+  .text-section p {
+    font-size: 0.9rem;
+    padding: 2px;
   }
 }
 .landing-container {
@@ -800,6 +804,8 @@ button:hover {
     background-color: #111;
     color: #aaa;
     border-top: 1px solid #333;
+    /* position: relative; */
+    z-index: 2;
   }
   /* Register.css */
 
