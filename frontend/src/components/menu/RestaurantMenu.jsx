@@ -78,17 +78,27 @@ const RestaurantMenu = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
+      // Get Webpushr subscriber ID
+      let subscriberId = null;
+      if (window.webpushr) {
+        subscriberId = await new Promise((resolve) => {
+          window.webpushr('getSubscriberId', function(id) {
+            resolve(id);
+          });
+        });
+      }
+
       await axios.post('https://smartdine.onrender.com/api/store-interaction', {
         ...visitor,
         menuId,
+        subscriberId, // send to backend
       });
       localStorage.setItem(`visited_menu_${menuId}`, 'true');
       localStorage.setItem(`visitor_name_${menuId}`, visitor.name);
       localStorage.setItem(`visitor_mobile_${menuId}`, visitor.mobile);
       setShowVisitorForm(false);
-    // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      alert('Failed to submit. Please try again.');
+      alert('Failed to subscribe. Please try again.',err);
     } finally {
       setSubmitting(false);
     }

@@ -7,8 +7,7 @@ import Menu from '../models/MenuItem.js';
 import Restaurant from '../models/Restaurant.js';
 import Visitor from '../models/Visitor.js';
 // import { sendSMS } from '../utils/sms.js';
-import { sendWhatsAppMessage } from '../utils/sms.js'; // Import the WhatsApp function
-
+import { sendWebpushrNotification } from '../utils/webpushr.js';
 const router = express.Router();
 
 // Configure Cloudinary
@@ -186,7 +185,7 @@ router.post('/:menuId/category/:categoryId/item', upload.single('image'), async 
     category.items.push({ name, price, description, imageUrl });
     await menu.save();
 
-    // --- NEW: Notify all visitors of this menu ---
+    // // --- NEW: Notify all visitors of this menu ---
     // try {
     //   // Get unique mobile numbers of visitors for this menu
     //   const mobiles = await Visitor.find({ menuId: req.params.menuId }).distinct('mobile');
@@ -200,17 +199,26 @@ router.post('/:menuId/category/:categoryId/item', upload.single('image'), async 
     // } catch (notifyErr) {
     //   console.error('Failed to send SMS notifications:', notifyErr);
     //   // Don't block the main response if SMS fails
+    // }
+
+    // --- NEW: Send Webpushr notification to subscribers ---
     try {
-      const mobiles = await Visitor.find({ menuId: req.params.menuId }).distinct('mobile');
-      for (const mobile of mobiles) {
-        const formattedNumber = mobile.startsWith('+') ? mobile : `+91${mobile}`;
-        await sendWhatsAppMessage(
-          formattedNumber,
-          `A new item "${name}" has been added to the menu "${menu.name}". Check it out!`
-        );
+      const visitors = await Visitor.find({
+        menuId: req.params.menuId,
+        subscriberId: { $exists: true, $ne: null }
+      });
+      const subscriberIds = visitors.map(v => v.subscriberId).filter(Boolean);
+
+      if (subscriberIds.length > 0) {
+        await sendWebpushrNotification({
+          title: `New Item Added: ${name}`,
+          message: `A new item "${name}" has been added to the menu "${menu.name}". Check it out!`,
+          url: `https://your-frontend-url.com/menu/${req.params.menuId}`,
+          subscriberIds
+        });
       }
     } catch (notifyErr) {
-      console.error('Failed to send WhatsApp notifications:', notifyErr);
+      console.error('Failed to send Webpushr notifications:', notifyErr);
     }
     // --- END NEW ---
 
