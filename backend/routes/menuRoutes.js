@@ -6,7 +6,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import Menu from '../models/MenuItem.js';
 import Restaurant from '../models/Restaurant.js';
 import Visitor from '../models/Visitor.js';
-import { sendSMS } from '../utils/sms.js';
+// import { sendSMS } from '../utils/sms.js';
+import { sendWhatsAppMessage } from '../utils/sms.js'; // Import the WhatsApp function
 
 const router = express.Router();
 
