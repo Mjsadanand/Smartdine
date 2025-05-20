@@ -74,35 +74,52 @@ const RestaurantMenu = () => {
     setIsDarkMode(!isDarkMode); // Toggle theme
   };
 
-  const handleVisitorSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      // Get Webpushr subscriber ID
-      let subscriberId = null;
-      if (window.webpushr) {
-        subscriberId = await new Promise((resolve) => {
-          window.webpushr('getSubscriberId', function(id) {
-            resolve(id);
-          });
+ const handleVisitorSubmit = async (e) => {
+  e.preventDefault();
+  setSubmitting(true);
+
+  try {
+
+    let subscriberId = null;
+
+    if (window.webpushr) {
+      const permissionGranted = await new Promise((resolve) => {
+        window.webpushr('subscribe', function (status) {
+          resolve(status);
         });
+      });
+
+      if (!permissionGranted) {
+        alert('Please allow notifications to subscribe!');
+        setSubmitting(false);
+        return;
       }
 
-      await axios.post('https://smartdine.onrender.com/api/store-interaction', {
-        ...visitor,
-        menuId,
-        subscriberId, // send to backend
+      subscriberId = await new Promise((resolve) => {
+        window.webpushr('getSubscriberId', function (id) {
+          console.log('Webpushr subscriberId:', id);
+          resolve(id);
+        });
       });
-      localStorage.setItem(`visited_menu_${menuId}`, 'true');
-      localStorage.setItem(`visitor_name_${menuId}`, visitor.name);
-      localStorage.setItem(`visitor_mobile_${menuId}`, visitor.mobile);
-      setShowVisitorForm(false);
-    } catch (err) {
-      alert('Failed to subscribe. Please try again.',err);
-    } finally {
-      setSubmitting(false);
     }
-  };
+
+    await axios.post('https://smartdine.onrender.com/api/store-interaction', {
+      ...visitor,
+      menuId,
+      subscriberId, // now guaranteed to be available
+    });
+
+    localStorage.setItem(`visited_menu_${menuId}`, 'true');
+    localStorage.setItem(`visitor_name_${menuId}`, visitor.name);
+    localStorage.setItem(`visitor_mobile_${menuId}`, visitor.mobile);
+    setShowVisitorForm(false);
+  } catch (err) {
+    console.error('Failed to subscribe:', err);
+    alert('Failed to subscribe. Please try again.');
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   if (showVisitorForm) {
     return (
