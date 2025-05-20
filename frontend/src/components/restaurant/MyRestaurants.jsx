@@ -6,6 +6,12 @@ import RestaurantPopup from './RestaurantPopup';
 import './restaurant.css';
 import { FaBell, FaUserCircle, FaPlus ,FaChartBar} from 'react-icons/fa';
 
+function showSystemNotification(title, body) {
+  if ("Notification" in window && Notification.permission === "granted") {
+    new Notification(title, { body });
+  }
+}
+
 const MyRestaurants = () => {
   const { username } = useParams(); // Extract username from the URL
   const navigate = useNavigate(); // For navigation
@@ -39,14 +45,22 @@ const MyRestaurants = () => {
     fetchRestaurants();
   }, [username]);
 
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
   const handleAddRestaurant = (newRestaurant) => {
     setRestaurants([...restaurants, newRestaurant]);
+    showSystemNotification("Restaurant Added", "A new restaurant was added!");
   };
 
   const handleUpdateRestaurant = (updatedRestaurant) => {
     setRestaurants(
       restaurants.map((r) => (r._id === updatedRestaurant._id ? updatedRestaurant : r))
     );
+    showSystemNotification("Restaurant Updated", "A restaurant was updated!");
   };
 
   const handleDeleteRestaurant = async (restaurantId) => {
@@ -56,6 +70,7 @@ const MyRestaurants = () => {
       });
       setRestaurants(restaurants.filter((r) => r._id !== restaurantId));
       alert('Restaurant deleted successfully!');
+      showSystemNotification("Restaurant Deleted", "A restaurant was deleted!");
     } catch (error) {
       console.error('Error deleting restaurant:', error);
       alert('Failed to delete restaurant');

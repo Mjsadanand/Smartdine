@@ -77,6 +77,7 @@ const MenuCreation = () => {
           restaurantId,
           categories: [],
         });
+        showSystemNotification("Menu Created", "A new menu was created!");
       }
       window.location.reload(); // Reload the page
     } catch (err) {
@@ -90,7 +91,8 @@ const MenuCreation = () => {
     setLoading(true); // Start loading
     try {
       await axios.delete(`https://smartdine.onrender.com/api/menu/${menuId}`);
-      window.location.reload(); // Reload the page
+      window.location.reload();
+      showSystemNotification("Menu Deleted", "A menu was deleted!"); // Reload the page
     } catch (err) {
       console.error('Error deleting menu:', err);
     } finally {
@@ -125,6 +127,7 @@ const MenuCreation = () => {
         : `https://smartdine.onrender.com/api/menu/${selectedMenu._id}/category`;
       const method = isEditingCategory ? axios.put : axios.post;
       await method(url, { name: categoryName });
+      showSystemNotification("Category Added", "A new category was added!");
       window.location.reload(); // Reload the page
     } catch (err) {
       console.error('Error saving category:', err);
@@ -138,6 +141,7 @@ const MenuCreation = () => {
     try {
       await axios.delete(`https://smartdine.onrender.com/api/menu/${menuId}/category/${categoryId}`);
       window.location.reload(); // Reload the page
+      showSystemNotification("Category Deleted", "A category was deleted!");
     } catch (err) {
       console.error('Error deleting category:', err);
     } finally {
@@ -166,6 +170,7 @@ const MenuCreation = () => {
       });
 
       window.location.reload(); // Reload the page
+      showSystemNotification("Item Added", "A new item was added!");
     } catch (err) {
       console.error('Error saving item:', err);
     } finally {
@@ -180,7 +185,8 @@ const MenuCreation = () => {
       await axios.delete(
         `https://smartdine.onrender.com/api/menu/${menuId}/category/${categoryId}/item/${itemId}`
       );
-      window.location.reload(); // Reload the page
+      window.location.reload();
+      showSystemNotification("Item Deleted", "An item was deleted!");// Reload the page
     } catch (err) {
       console.error('Error deleting item:', err);
     } finally {
@@ -297,20 +303,26 @@ const MenuCreation = () => {
     recognitionRef.current?.stop();
   };
 
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
   return (
     <div>
-    <div>
-      <div className="top-bar">
-        <a onClick={() => navigate(-1)} className="back-button">
-          <span>&lt;</span> Back to Restaurants
-        </a>
-        <div className="icon-group">
-          <FaBell className="icon" title="Notifications" />
-          <FaUserCircle className="icon" title="Profile" />
+      <div>
+        <div className="top-bar">
+          <a onClick={() => navigate(-1)} className="back-button">
+            <span>&lt;</span> Back to Restaurants
+          </a>
+          <div className="icon-group">
+            <FaBell className="icon" title="Notifications" />
+            <FaUserCircle className="icon" title="Profile" />
+          </div>
         </div>
+        <hr className="divider" />
       </div>
-      <hr className="divider" />
-    </div>
       <div className="menu-container">
         {loading && <Loader />}
         {/* Menu List */}
@@ -619,5 +631,11 @@ const Loader = () => (
     <div className="spinner"></div>
   </div>
 );
+
+function showSystemNotification(title, body) {
+  if ("Notification" in window && Notification.permission === "granted") {
+    new Notification(title, { body });
+  }
+}
 
 export default MenuCreation;
