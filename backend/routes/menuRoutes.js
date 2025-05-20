@@ -5,7 +5,8 @@ import mongoose from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
 import Menu from '../models/MenuItem.js';
 import Restaurant from '../models/Restaurant.js';
-// import { Types } from 'mongoose';
+import Visitor from '../models/Visitor.js';
+import { sendSMS } from '../utils/sms.js';
 
 const router = express.Router();
 
@@ -183,6 +184,23 @@ router.post('/:menuId/category/:categoryId/item', upload.single('image'), async 
     // Add the new item to the category
     category.items.push({ name, price, description, imageUrl });
     await menu.save();
+
+    // --- NEW: Notify all visitors of this menu ---
+    try {
+      // Get unique mobile numbers of visitors for this menu
+      const mobiles = await Visitor.find({ menuId: req.params.menuId }).distinct('mobile');
+      for (const mobile of mobiles) {
+        // Format mobile number as needed, e.g., '+91' for India
+        await sendSMS(
+          mobile.startsWith('+') ? mobile : `+91${mobile}`,
+          `A new item "${name}" has been added to the menu "${menu.name}". Check it out!`
+        );
+      }
+    } catch (notifyErr) {
+      console.error('Failed to send SMS notifications:', notifyErr);
+      // Don't block the main response if SMS fails
+    }
+    // --- END NEW ---
 
     res.status(201).json(menu);
   } catch (err) {
