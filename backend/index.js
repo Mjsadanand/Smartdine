@@ -58,12 +58,13 @@ app.use('/api/analytics', analyticsRoutes);
 
 app.post('/api/store-interaction', async (req, res) => {
   try {
-    const { name, mobile, menuId } = req.body;
-    // No deduplication check here!
-    await Visitor.create({ name, mobile, menuId });
-    res.json({ msg: 'Interaction stored' });
+    const { name, mobile, menuId, subscriberId } = req.body;
+    // Save all fields, including subscriberId
+    const visitor = new Visitor({ name, mobile, menuId, subscriberId });
+    await visitor.save();
+    res.status(201).json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to store interaction' });
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
