@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // To extract the username and navigate
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import RestaurantCard from './RestaurantCard';
 import RestaurantPopup from './RestaurantPopup';
 import './restaurant.css';
-import { FaBell, FaUserCircle, FaPlus ,FaChartBar} from 'react-icons/fa';
+import { FaBell, FaUserCircle, FaPlus, FaChartBar } from 'react-icons/fa';
 
 function showSystemNotification(title, body) {
   if ("Notification" in window && Notification.permission === "granted") {
@@ -13,35 +13,38 @@ function showSystemNotification(title, body) {
 }
 
 const MyRestaurants = () => {
-  const { username } = useParams(); // Extract username from the URL
-  const navigate = useNavigate(); // For navigation
+  const { username } = useParams();
+  const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState([]);
-  const [showPopup, setShowPopup] = useState(false); // For restaurant popup
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false); // For profile dropdown
+  const [showPopup, setShowPopup] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [editRestaurant, setEditRestaurant] = useState(null);
+  const [loading, setLoading] = useState(false); // For general loading
+  const [deletingId, setDeletingId] = useState(null); // For delete button loader
 
-  // Determine the greeting based on the time of day
+  // Greeting logic
   const getGreeting = () => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) return 'Good Morning';
     if (currentHour < 18) return 'Good Afternoon';
     return 'Good Evening';
   };
-
   const greeting = getGreeting();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(`https://smartdine.onrender.com/api/restaurant/${username}`, {
-          withCredentials: true, // Ensure cookies are sent with the request
+          withCredentials: true,
         });
         setRestaurants(res.data);
       } catch (error) {
         console.error('Error fetching restaurants:', error);
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchRestaurants();
   }, [username]);
 
@@ -64,16 +67,17 @@ const MyRestaurants = () => {
   };
 
   const handleDeleteRestaurant = async (restaurantId) => {
+    setDeletingId(restaurantId);
     try {
       await axios.delete(`https://smartdine.onrender.com/api/restaurant/delete/${restaurantId}`, {
         withCredentials: true,
       });
       setRestaurants(restaurants.filter((r) => r._id !== restaurantId));
-      alert('Restaurant deleted successfully!');
       showSystemNotification("Restaurant Deleted", "A restaurant was deleted!");
     } catch (error) {
       console.error('Error deleting restaurant:', error);
-      alert('Failed to delete restaurant');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -88,13 +92,12 @@ const MyRestaurants = () => {
   };
 
   const handleCardClick = (restaurantId) => {
-    // Navigate to the menu creation page for the selected restaurant
     navigate(`/restaurant/${username}/menu/${restaurantId}`);
   };
 
   return (
-    <div className="restaurant-container" >
-      {/* Updated Header */}
+    <div className="restaurant-container">
+      {/* Header */}
       <div className="top-bar">
         <span className="greeting">
           {greeting}, {username.replace(/[0-9_]/g, '')}
@@ -126,6 +129,9 @@ const MyRestaurants = () => {
       </div>
       <hr className="divider" />
 
+      {/* Loader */}
+      {loading && <div className="loader">Loading restaurants...</div>}
+
       {/* Restaurant Grid */}
       <div className="restaurant-grid">
         {Array.isArray(restaurants) &&
@@ -136,6 +142,7 @@ const MyRestaurants = () => {
               onClick={() => handleCardClick(r._id)}
               onEdit={() => handleEditClick(r)}
               onDelete={() => handleDeleteRestaurant(r._id)}
+              deleting={deletingId === r._id} // Pass deleting state to card
             />
           ))}
         <div className="add-restaurant-card" onClick={() => setShowPopup(true)}>
@@ -152,6 +159,7 @@ const MyRestaurants = () => {
           onAdd={handleAddRestaurant}
           onUpdate={handleUpdateRestaurant}
           editRestaurant={editRestaurant}
+          loading={loading}
         />
       )}
     </div>

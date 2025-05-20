@@ -38,6 +38,7 @@ const MenuCreation = () => {
   const [itemDetails, setItemDetails] = useState({ name: '', price: '', description: '', image: null });
   const [currentItemId, setCurrentItemId] = useState(null);
   const [isEditingItem, setIsEditingItem] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [showUrlPopup, setShowUrlPopup] = useState(false);
   const [menuUrl, setMenuUrl] = useState('');
@@ -59,44 +60,58 @@ const MenuCreation = () => {
       .then((res) => {
         setMenus(res.data);
         if (!selectedMenu && res.data.length > 0) {
-          setSelectedMenu(res.data[0]); // Automatically select the first menu
+          setSelectedMenu(res.data[0]);
         }
       })
       .catch((err) => console.error('Error fetching menus:', err));
-  }, [restaurantId, selectedMenu]);
+    // eslint-disable-next-line
+  }, [restaurantId]);
 
   // Menu CRUD
   const handleAddOrEditMenu = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       if (isEditingMenu) {
-        await axios.put(`https://smartdine.onrender.com/api/menu/${selectedMenu._id}`, menuForm);
+        const res = await axios.put(
+          `https://smartdine.onrender.com/api/menu/${selectedMenu._id}`,
+          menuForm
+        );
+        setMenus(menus.map(menu => menu._id === selectedMenu._id ? res.data : menu));
+        setSelectedMenu(res.data);
+        showSystemNotification("Menu Updated", "Menu details updated!");
       } else {
-        await axios.post(`https://smartdine.onrender.com/api/menu`, {
+        const res = await axios.post(`https://smartdine.onrender.com/api/menu`, {
           ...menuForm,
           restaurantId,
           categories: [],
         });
+        setMenus([...menus, res.data]);
+        setSelectedMenu(res.data);
         showSystemNotification("Menu Created", "A new menu was created!");
       }
-      window.location.reload(); // Reload the page
+      setShowMenuModal(false);
+      setMenuForm({ name: '', availableTime: '' });
+      setIsEditingMenu(false);
     } catch (err) {
       console.error('Error saving menu:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   const handleDeleteMenu = async (menuId) => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       await axios.delete(`https://smartdine.onrender.com/api/menu/${menuId}`);
-      window.location.reload();
-      showSystemNotification("Menu Deleted", "A menu was deleted!"); // Reload the page
+      setMenus(menus.filter(menu => menu._id !== menuId));
+      if (selectedMenu && selectedMenu._id === menuId) {
+        setSelectedMenu(menus.length > 1 ? menus.find(m => m._id !== menuId) : null);
+      }
+      showSystemNotification("Menu Deleted", "A menu was deleted!");
     } catch (err) {
       console.error('Error deleting menu:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -120,41 +135,55 @@ const MenuCreation = () => {
 
   // Category CRUD
   const handleAddOrEditCategory = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const url = isEditingCategory
         ? `https://smartdine.onrender.com/api/menu/${selectedMenu._id}/category/${currentCategoryId}`
         : `https://smartdine.onrender.com/api/menu/${selectedMenu._id}/category`;
       const method = isEditingCategory ? axios.put : axios.post;
-      await method(url, { name: categoryName });
-      showSystemNotification("Category Added", "A new category was added!");
-      window.location.reload(); // Reload the page
+      const res = await method(url, { name: categoryName });
+
+      // Update categories in selectedMenu and menus state
+      const updatedMenu = res.data.menu || res.data; // Adjust based on your backend response
+      setMenus(menus.map(menu => menu._id === updatedMenu._id ? updatedMenu : menu));
+      setSelectedMenu(updatedMenu);
+      showSystemNotification(
+        isEditingCategory ? "Category Updated" : "Category Added",
+        isEditingCategory ? "A category was updated!" : "A new category was added!"
+      );
+      setShowCategoryModal(false);
+      setCategoryName('');
+      setIsEditingCategory(false);
+      setCurrentCategoryId(null);
     } catch (err) {
       console.error('Error saving category:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   const handleDeleteCategory = async (menuId, categoryId) => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
-      await axios.delete(`https://smartdine.onrender.com/api/menu/${menuId}/category/${categoryId}`);
-      window.location.reload(); // Reload the page
+      const res = await axios.delete(
+        `https://smartdine.onrender.com/api/menu/${menuId}/category/${categoryId}`
+      );
+      // Update categories in selectedMenu and menus state
+      const updatedMenu = res.data.menu || res.data;
+      setMenus(menus.map(menu => menu._id === updatedMenu._id ? updatedMenu : menu));
+      setSelectedMenu(updatedMenu);
       showSystemNotification("Category Deleted", "A category was deleted!");
     } catch (err) {
       console.error('Error deleting category:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   // Item CRUD
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission status
-
   const handleAddOrEditItem = async () => {
-    setLoading(true); // Start loading
-    setIsSubmitting(true); // Start submission
+    setLoading(true);
+    setIsSubmitting(true);
     const formData = new FormData();
     Object.entries(itemDetails).forEach(([key, value]) => formData.append(key, value));
 
@@ -165,32 +194,47 @@ const MenuCreation = () => {
 
       const method = isEditingItem ? axios.put : axios.post;
 
-      await method(url, formData, {
+      const res = await method(url, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      window.location.reload(); // Reload the page
-      showSystemNotification("Item Added", "A new item was added!");
+      // Update categories/items in selectedMenu and menus state
+      const updatedMenu = res.data.menu || res.data;
+      setMenus(menus.map(menu => menu._id === updatedMenu._id ? updatedMenu : menu));
+      setSelectedMenu(updatedMenu);
+
+      showSystemNotification(
+        isEditingItem ? "Item Updated" : "Item Added",
+        isEditingItem ? "An item was updated!" : "A new item was added!"
+      );
+      setShowItemModal(false);
+      setItemDetails({ name: '', price: '', description: '', image: null });
+      setIsEditingItem(false);
+      setCurrentItemId(null);
+      setCurrentCategoryId(null);
     } catch (err) {
       console.error('Error saving item:', err);
     } finally {
-      setLoading(false); // Stop loading
-      setIsSubmitting(false); // Stop submission
+      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
   const handleDeleteItem = async (menuId, categoryId, itemId) => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
-      await axios.delete(
+      const res = await axios.delete(
         `https://smartdine.onrender.com/api/menu/${menuId}/category/${categoryId}/item/${itemId}`
       );
-      window.location.reload();
-      showSystemNotification("Item Deleted", "An item was deleted!");// Reload the page
+      // Update categories/items in selectedMenu and menus state
+      const updatedMenu = res.data.menu || res.data;
+      setMenus(menus.map(menu => menu._id === updatedMenu._id ? updatedMenu : menu));
+      setSelectedMenu(updatedMenu);
+      showSystemNotification("Item Deleted", "An item was deleted!");
     } catch (err) {
       console.error('Error deleting item:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
