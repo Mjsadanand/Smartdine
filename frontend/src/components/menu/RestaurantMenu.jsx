@@ -73,15 +73,14 @@ const RestaurantMenu = () => {
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode); // Toggle theme
   };
-
- const handleVisitorSubmit = async (e) => {
+const handleVisitorSubmit = async (e) => {
   e.preventDefault();
   setSubmitting(true);
 
   try {
-
     let subscriberId = null;
 
+    // Wrap the subscribe and getSubscriberId callbacks in Promises
     if (window.webpushr) {
       const permissionGranted = await new Promise((resolve) => {
         window.webpushr('subscribe', function (status) {
@@ -106,20 +105,22 @@ const RestaurantMenu = () => {
     await axios.post('https://smartdine.onrender.com/api/store-interaction', {
       ...visitor,
       menuId,
-      subscriberId, // now guaranteed to be available
+      subscriberId, // now this is a proper value
     });
 
     localStorage.setItem(`visited_menu_${menuId}`, 'true');
     localStorage.setItem(`visitor_name_${menuId}`, visitor.name);
     localStorage.setItem(`visitor_mobile_${menuId}`, visitor.mobile);
     setShowVisitorForm(false);
+
   } catch (err) {
-    console.error('Failed to subscribe:', err);
+    console.error('Subscription error:', err);
     alert('Failed to subscribe. Please try again.');
   } finally {
     setSubmitting(false);
   }
 };
+
 
   if (showVisitorForm) {
     return (
