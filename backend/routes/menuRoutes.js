@@ -186,19 +186,30 @@ router.post('/:menuId/category/:categoryId/item', upload.single('image'), async 
     await menu.save();
 
     // --- NEW: Notify all visitors of this menu ---
+    // try {
+    //   // Get unique mobile numbers of visitors for this menu
+    //   const mobiles = await Visitor.find({ menuId: req.params.menuId }).distinct('mobile');
+    //   for (const mobile of mobiles) {
+    //     // Format mobile number as needed, e.g., '+91' for India
+    //     await sendSMS(
+    //       mobile.startsWith('+') ? mobile : `+91${mobile}`,
+    //       `A new item "${name}" has been added to the menu "${menu.name}". Check it out!`
+    //     );
+    //   }
+    // } catch (notifyErr) {
+    //   console.error('Failed to send SMS notifications:', notifyErr);
+    //   // Don't block the main response if SMS fails
     try {
-      // Get unique mobile numbers of visitors for this menu
       const mobiles = await Visitor.find({ menuId: req.params.menuId }).distinct('mobile');
       for (const mobile of mobiles) {
-        // Format mobile number as needed, e.g., '+91' for India
-        await sendSMS(
-          mobile.startsWith('+') ? mobile : `+91${mobile}`,
+        const formattedNumber = mobile.startsWith('+') ? mobile : `+91${mobile}`;
+        await sendWhatsAppMessage(
+          formattedNumber,
           `A new item "${name}" has been added to the menu "${menu.name}". Check it out!`
         );
       }
     } catch (notifyErr) {
-      console.error('Failed to send SMS notifications:', notifyErr);
-      // Don't block the main response if SMS fails
+      console.error('Failed to send WhatsApp notifications:', notifyErr);
     }
     // --- END NEW ---
 
