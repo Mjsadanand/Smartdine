@@ -349,7 +349,9 @@ const MenuCreation = () => {
 
   useEffect(() => {
     if ("Notification" in window && Notification.permission !== "granted") {
-      Notification.requestPermission();
+      Notification.requestPermission().then(permission => {
+        console.log('Notification permission:', permission);
+      });
     }
   }, []);
 
@@ -677,8 +679,11 @@ const Loader = () => (
 );
 
 function showSystemNotification(title, body) {
+  console.log('Triggering notification:', title, body, Notification.permission);
   if ("Notification" in window && Notification.permission === "granted") {
     new Notification(title, { body });
+  } else {
+    console.log('Notification not shown. Permission:', Notification.permission);
   }
 }
 

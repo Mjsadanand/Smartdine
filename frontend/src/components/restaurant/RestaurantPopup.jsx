@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './restaurant.css';
 
+// System notification helper with debug log
+function showSystemNotification(title, body) {
+  console.log('Triggering notification:', title, body, Notification.permission);
+  if ("Notification" in window && Notification.permission === "granted") {
+    new Notification(title, { body });
+  } else {
+    console.log('Notification not shown. Permission:', Notification.permission);
+  }
+}
+
 const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -9,6 +19,7 @@ const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
     contactNumber: '',
     image: null,
   });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (editRestaurant) {
@@ -31,10 +42,12 @@ const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
 
     // Optional: validate image file size/type
     if (formData.image && formData.image.size > 2 * 1024 * 1024) {
-      return alert('Image size should be less than 2MB');
+      setSubmitting(false);
+      return; // Optionally show a custom error message UI here
     }
 
     const data = new FormData();
@@ -53,7 +66,7 @@ const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
           { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
         );
         onUpdate(response.data);
-        alert('Restaurant updated successfully!');
+        showSystemNotification('Restaurant Updated', 'Restaurant updated successfully!');
       } else {
         response = await axios.post(
           'https://smartdine.onrender.com/api/restaurant/add',
@@ -61,12 +74,14 @@ const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
           { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
         );
         onAdd(response.data);
-        alert('Restaurant added successfully!');
+        showSystemNotification('Restaurant Added', 'Restaurant added successfully!');
       }
       onClose();
     } catch (err) {
       console.error('Error saving restaurant:', err);
-      alert(err.response?.data?.msg || 'Failed to save restaurant');
+      // Optionally show a custom error message UI here
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -108,8 +123,10 @@ const RestaurantPopup = ({ onClose, onAdd, onUpdate, editRestaurant }) => {
           onChange={handleChange}
         />
 
-        <button type="submit">{editRestaurant ? 'Update' : 'Save'}</button>
-        <button type="button" onClick={onClose}>
+        <button type="submit" disabled={submitting}>
+          {submitting ? (editRestaurant ? 'Updating...' : 'Saving...') : (editRestaurant ? 'Update' : 'Save')}
+        </button>
+        <button type="button" onClick={onClose} disabled={submitting}>
           Cancel
         </button>
       </form>
