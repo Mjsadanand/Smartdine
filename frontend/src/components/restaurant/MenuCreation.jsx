@@ -126,6 +126,7 @@ const MenuCreation = () => {
       if (!isPublished && updatedMenu.published) {
         handleShowUrlPopup(menuId); // Show URL popup if published
       }
+      showSystemNotification("Menu Published", "A menu was published!");
     } catch (err) {
       console.error('Error toggling publish status:', err);
     } finally {
