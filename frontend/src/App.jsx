@@ -10,6 +10,9 @@ import Hotel from "./components/Hotel.jsx";
 import Dashboard from "./components/analytics/Dashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import OauthSuccess from "./components/auth/OauthSuccess.jsx";
+import CustomerLogin from './components/customer/CustomerLogin.jsx';
+import CustomerRegister from './components/customer/CustomerRegister.jsx';
+import CustomerPanel from './components/customer/CustomerPanel.jsx';
 
 function App() {
   return (
@@ -64,6 +67,9 @@ function App() {
         <Route path="/menu/:menuId" element={<RestaurantMenu />} />
         <Route path="/hotel" element={<Hotel />} />
         <Route path="/oauth-success" element={<OauthSuccess />} />
+        <Route path="/customer/login" element={<CustomerLogin />} />
+        <Route path="/customer/register" element={<CustomerRegister />} />
+        <Route path="/customer/panel" element={<CustomerPanel />} />
       </Routes>
     </Router>
   );

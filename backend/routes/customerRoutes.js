@@ -3,6 +3,8 @@ import Customer from '../models/Customer.js';
 import Menu from '../models/MenuItem.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import axios from 'axios';
+import passport from 'passport';
 
 const router = express.Router();
 
@@ -86,5 +88,26 @@ router.get('/scanned-menus', auth, async (req, res) => {
   if (!customer) return res.status(404).json({ msg: 'Not found' });
   res.json(customer.scannedMenus);
 });
+
+// const token = localStorage.getItem('customerToken');
+// axios.get('http://localhost:5000/api/customer/profile', {
+//   headers: { Authorization: `Bearer ${token}` }
+// });
+
+// Start Google OAuth
+router.get('/auth/google',
+  passport.authenticate('customer-google', { scope: ['profile', 'email'] })
+);
+
+// Google OAuth callback
+router.get('/auth/google/callback',
+  passport.authenticate('customer-google', { session: false, failureRedirect: 'http://localhost:5173/customer/login' }),
+  (req, res) => {
+    // Generate JWT for the customer
+    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    // Redirect to frontend with token as query param
+    res.redirect(`http://localhost:5173/customer/panel?token=${token}`);
+  }
+);
 
 export default router;

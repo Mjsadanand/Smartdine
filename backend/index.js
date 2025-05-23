@@ -16,6 +16,7 @@ import { checkConsent } from './middleware/consentMiddleware.js';
 import cookieParser from 'cookie-parser';
 import Visitor from './models/Visitor.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import customerRoutes from './routes/customerRoutes.js';
 
 dotenv.config();
 
@@ -28,8 +29,11 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: 'https://smartdine.onrender.com', // Frontend URL
-  credentials: true, // Allow credentials (cookies)
+  origin: [
+    'https://smartdine.onrender.com',
+    'http://localhost:5173'
+  ],
+  credentials: true
 }));
 
 app.use(cookieParser());
@@ -55,6 +59,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/restaurant', restaurantRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/customer', customerRoutes);
 
 app.post('/api/store-interaction', async (req, res) => {
   try {

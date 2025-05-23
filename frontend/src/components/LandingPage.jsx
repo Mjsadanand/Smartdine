@@ -41,7 +41,150 @@ const LandingPage = () => {
                     <header className="landing-main-header">
                         <h1>Welcome to <span>SmartDine</span></h1>
                         <p>Your smart dining experience starts here.</p>
-                        <button className="landing-button" onClick={navigateToSignup}>Get Started</button>
+                        <div style={{
+                            display: 'flex',
+                            gap: '2rem',
+                            justifyContent: 'center',
+                            marginTop: '2rem',
+                            flexWrap: 'wrap'
+                        }}>
+                            {/* Customer & Owner Auth Section */}
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    gap: '2.5rem',
+                                    justifyContent: 'center',
+                                    marginTop: '2.5rem',
+                                    flexWrap: 'wrap',
+                                    alignItems: 'stretch'
+                                }}
+                            >
+                                {/* Customer Card */}
+                                <div
+                                    style={{
+                                        background: 'linear-gradient(135deg, #e3f0ff 0%, #fafcff 100%)',
+                                        borderRadius: '18px',
+                                        padding: '2.5rem 2rem',
+                                        boxShadow: '0 6px 24px rgba(25,118,210,0.13)',
+                                        minWidth: '260px',
+                                        maxWidth: '320px',
+                                        textAlign: 'center',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        transition: 'transform 0.2s',
+                                        border: '1.5px solid #e3eafc'
+                                    }}
+                                    className="auth-card"
+                                >
+                                    <h2 style={{ color: '#1976d2', marginBottom: '1.2rem' }}>Customer</h2>
+                                    <p style={{ color: '#555', marginBottom: '1.5rem', fontSize: '1rem' }}>
+                                        Access digital menus, order, and enjoy a seamless dining experience.
+                                    </p>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+                                        <Link to="/customer/login">
+                                            <button
+                                                className="landing-button"
+                                                style={{
+                                                    background: '#1976d2',
+                                                    color: '#fff',
+                                                    border: 'none',
+                                                    borderRadius: '8px',
+                                                    padding: '0.7rem 0',
+                                                    fontWeight: 'bold',
+                                                    fontSize: '1rem',
+                                                    width: '100%',
+                                                    boxShadow: '0 2px 8px rgba(25,118,210,0.07)',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                            >
+                                                Login
+                                            </button>
+                                        </Link>
+                                        <Link to="/customer/register">
+                                            <button
+                                                className="landing-button"
+                                                style={{
+                                                    background: '#fff',
+                                                    color: '#1976d2',
+                                                    border: '2px solid #1976d2',
+                                                    borderRadius: '8px',
+                                                    padding: '0.7rem 0',
+                                                    fontWeight: 'bold',
+                                                    fontSize: '1rem',
+                                                    width: '100%',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                            >
+                                                Sign Up
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+                                {/* Owner Card */}
+                                <div
+                                    style={{
+                                        background: 'linear-gradient(135deg, #f7faff 0%, #e3f0ff 100%)',
+                                        borderRadius: '18px',
+                                        padding: '2.5rem 2rem',
+                                        boxShadow: '0 6px 24px rgba(25,118,210,0.13)',
+                                        minWidth: '260px',
+                                        maxWidth: '320px',
+                                        textAlign: 'center',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        transition: 'transform 0.2s',
+                                        border: '1.5px solid #e3eafc'
+                                    }}
+                                    className="auth-card"
+                                >
+                                    <h2 style={{ color: '#1976d2', marginBottom: '1.2rem' }}>Hotel Owner</h2>
+                                    <p style={{ color: '#555', marginBottom: '1.5rem', fontSize: '1rem' }}>
+                                        Manage your restaurant, menus, and view analytics with SmartDine.
+                                    </p>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+                                        <Link to="/login">
+                                            <button
+                                                className="landing-button"
+                                                style={{
+                                                    background: '#1976d2',
+                                                    color: '#fff',
+                                                    border: 'none',
+                                                    borderRadius: '8px',
+                                                    padding: '0.7rem 0',
+                                                    fontWeight: 'bold',
+                                                    fontSize: '1rem',
+                                                    width: '100%',
+                                                    boxShadow: '0 2px 8px rgba(25,118,210,0.07)',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                            >
+                                                Login
+                                            </button>
+                                        </Link>
+                                        <Link to="/register">
+                                            <button
+                                                className="landing-button"
+                                                style={{
+                                                    background: '#fff',
+                                                    color: '#1976d2',
+                                                    border: '2px solid #1976d2',
+                                                    borderRadius: '8px',
+                                                    padding: '0.7rem 0',
+                                                    fontWeight: 'bold',
+                                                    fontSize: '1rem',
+                                                    width: '100%',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                            >
+                                                Sign Up
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </header>
                 </div>
             </div>

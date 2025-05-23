@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import User from '../models/User.js';
+import Customer from '../models/Customer.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -51,4 +52,26 @@ passport.use(new GoogleStrategy({
     }
   }
 ));
+
+passport.use('customer-google', new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: 'http://localhost:5000/api/customer/auth/google/callback'
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    let customer = await Customer.findOne({ googleId: profile.id });
+    if (customer) return done(null, customer);
+
+    // If not found, create new customer
+    customer = await Customer.create({
+      googleId: profile.id,
+      name: profile.displayName,
+      email: profile.emails[0].value,
+      password: '', // or a random string
+    });
+    done(null, customer);
+  } catch (err) {
+    done(err, null);
+  }
+}));
 
