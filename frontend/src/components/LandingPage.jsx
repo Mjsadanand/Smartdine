@@ -77,18 +77,19 @@ const LandingPage = () => {
             <div className="feedback-wrapper">
                 <h2 className="section-title">CUSTOMER FEEDBACK</h2>
                 <div className="feedback-container">
-                    <div className="feedback-card"><div className="quote">❝</div><h3 className="feedback-title">TRANSPORTED TO PARIS</h3><p className="feedback-text">One bite and I felt like I was back in France. Chef Ingrid and her team have outdone themselves!</p><p className="feedback-author">- Rohan, Entrepreneur</p></div>
-                    <div className="feedback-card"><div className="quote">❝</div><h3 className="feedback-title">LOVELY BISTRO</h3><p className="feedback-text">The ambience was great - and the food even better! Simple recipes done well, with top-notch ingredients. Will be back!</p><p className="feedback-author">- Anjali, Homemaker</p></div>
-                    <div className="feedback-card"><div className="quote">❝</div><h3 className="feedback-title">TRANSPORTED TO PARIS</h3><p className="feedback-text">Eating here made me miss Paris so much. What a treat! I will be bringing my client meetings here.</p><p className="feedback-author">- Meera, Consultant</p></div>
+                    <div className="feedback-card"><div className="quote">❝</div><h3 className="feedback-title">REVOLUTIONARY EXPERIENCE</h3><p className="feedback-text">As a street vendor with no tech knowledge, SmartDine changed my life. I can now update my menu just by speaking—and customers love scanning the QR to order. So simple and efficient!</p><p className="feedback-author">— Ravi, Street Food Vendor</p></div>
+                    <div className="feedback-card"><div className="quote">❝</div><h3 className="feedback-title">TRULY USER-FRIENDLY</h3><p className="feedback-text">SmartDine’s interface is so simple! I update my items in seconds, and everything reflects instantly. It’s perfect for small stalls like mine.</p><p className="feedback-author">— Sunita, Canteen Owner</p></div>
+                    <div className="feedback-card"><div className="quote">❝</div><h3 className="feedback-title">MODERN DINING EXPERIENCE</h3><p className="feedback-text">Just scanning a QR and seeing the full menu on my phone felt so seamless. No apps, no confusion — it felt smart and modern.</p><p className="feedback-author">— Karthik, Customer</p></div>
                 </div>
             </div>
             <div className="contact-wrapper">
-                <div className="image-section"></div>
+                {/* <div className="image-section"></div> */}
+                <div className="image-section"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3481.456921695111!2d75.11910207458678!3d15.36916625779964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb8d0ccd709a737%3A0xa247612556cc78b3!2sKLE%20Technological%20University!5e1!3m2!1sen!2sin!4v1750143793671!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
                 <div className="info-section">
                     <h1>SEE YOU SOON</h1>
-                    <div className="info-block"><h4>PHONE NUMBER</h4><p>(123) 456-7890</p></div>
-                    <div className="info-block"><h4>EMAIL ADDRESS</h4><p>hello@reallygreatsite.com</p></div>
-                    <div className="info-block"><h4>RESTAURANT</h4><p>Kle Tech Hubli, Vidyanagar Hubli.</p></div>
+                    <div className="info-block"><h4>PHONE NUMBER</h4><p>(+91) 90199 94562 | (+91) 99028 95454 </p></div>
+                    <div className="info-block"><h4>EMAIL ADDRESS</h4><p>smartdine@gmail.com</p></div>
+                    <div className="info-block"><h4>PLACE</h4><p>Kle Tech Hubli, Vidyanagar Hubli.</p></div>
                 </div>
             </div>
             <span className="footer-text">© 2025 SmartDine | Privacy Policy | Disclaimer</span>
