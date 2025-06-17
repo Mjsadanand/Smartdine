@@ -33,7 +33,7 @@ function Hotel() {
       setShowQrPopup(true); // Show the QR popup
     } catch (error) {
       console.error('Error fetching QR code:', error);
-      alert('Failed to fetch QR code for this restaurant.');
+      alert('Restaurant owner did not published QR.');
     }
   };
 

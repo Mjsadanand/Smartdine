@@ -98,72 +98,72 @@ const MyRestaurants = () => {
   return (
     <div className="restaurant-container">
       /* Header */
-        <div className="top-bar">
-          <span className="greeting">
-            {greeting}, {username.replace(/[0-9_]/g, '')}
-          </span>
-          <div className="icon-group">
-            <FaBell className="icon" title="Notifications" />
-            <FaChartBar
-          className="icon"
-          title="Dashboard"
-          style={{ cursor: 'pointer', marginRight: '1rem' }}
-          onClick={() => navigate(`/dashboard/${username}`)}
-            />
-            <div className="profile-dropdown">
-          <FaUserCircle
+      <div className="top-bar">
+        <span className="greeting">
+          {greeting}, {username.replace(/[0-9_]/g, '')}
+        </span>
+        <div className="icon-group">
+          <FaBell className="icon" title="Notifications" />
+          <FaChartBar
             className="icon"
-            title="Profile"
-            onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+            title="Dashboard"
+            style={{ cursor: 'pointer', marginRight: '1rem' }}
+            onClick={() => navigate(`/dashboard/${username}`)}
           />
-          {showProfileDropdown && (
-            <div className="profile-popup-overlay" onClick={() => setShowProfileDropdown(false)}>
-              <div
-            className="profile-popup"
-            onClick={e => e.stopPropagation()}
-            style={{
-              background: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-              padding: '1.5rem',
-              minWidth: '250px',
-              position: 'absolute',
-              right: 0,
-              top: '2.5rem',
-              zIndex: 1000,
-            }}
-              >
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-              <FaUserCircle size={40} style={{ marginRight: '1rem' }} />
-              <div>
-                <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-              {username.replace(/[0-9_]/g, '')}
-                </div>
-                <div style={{ color: '#888', fontSize: '0.95rem' }}>
-              @{username}
-                </div>
-              </div>
-            </div>
-            <hr style={{ margin: '0.5rem 0' }} />
-            <div className="dropdown-item" style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
+          <div className="profile-dropdown">
+            <FaUserCircle
+              className="icon"
+              title="Profile"
+              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+            />
+            {showProfileDropdown && (
+              <div className="profile-popup-overlay" onClick={() => setShowProfileDropdown(false)}>
+                <div
+                  className="profile-popup"
+                  onClick={e => e.stopPropagation()}
+                  style={{
+                    background: '#fff',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                    padding: '1.5rem',
+                    minWidth: '250px',
+                    position: 'absolute',
+                    right: 0,
+                    top: '2.5rem',
+                    zIndex: 1000,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                    <FaUserCircle size={40} style={{ marginRight: '1rem' }} />
+                    <div>
+                      <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                        {username.replace(/[0-9_]/g, '')}
+                      </div>
+                      <div style={{ color: '#888', fontSize: '0.95rem' }}>
+                        @{localStorage.getItem('email') || ''}
+                      </div>
+                    </div>
+                  </div>
+                  <hr style={{ margin: '0.5rem 0' }} />
+                  {/* <div className="dropdown-item" style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
               Profile
-            </div>
-            <div
-              className="dropdown-item logout"
-              style={{ color: '#d32f2f', cursor: 'pointer' }}
-              onClick={handleLogout}
-            >
-              Logout
-            </div>
+            </div> */}
+                  <div
+                    className="dropdown-item logout"
+                    style={{ color: '#d32f2f', cursor: 'pointer' }}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
-            </div>
+            )}
           </div>
         </div>
-        <hr className="divider" />
+      </div>
+      <hr className="divider" />
 
-        {/* Loader */}
+      {/* Loader */}
       {loading && <div className="loader">Loading restaurants...</div>}
 
       {/* Restaurant Grid */}
