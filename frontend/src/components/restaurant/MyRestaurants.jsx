@@ -97,7 +97,6 @@ const MyRestaurants = () => {
 
   return (
     <div className="restaurant-container">
-      /* Header */
       <div className="top-bar">
         <span className="greeting">
           {greeting}, {username.replace(/[0-9_]/g, '')}
@@ -139,9 +138,9 @@ const MyRestaurants = () => {
                       <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
                         {username.replace(/[0-9_]/g, '')}
                       </div>
-                      <div style={{ color: '#888', fontSize: '0.95rem' }}>
+                      {/* <div style={{ color: '#888', fontSize: '0.95rem' }}>
                         @{localStorage.getItem('email') || ''}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <hr style={{ margin: '0.5rem 0' }} />
