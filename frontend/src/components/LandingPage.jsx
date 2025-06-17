@@ -83,11 +83,11 @@ const LandingPage = () => {
                 </div>
             </div>
             <div className="contact-wrapper">
-                {/* <div className="image-section"></div> */}
-                <div className="image-section"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3481.456921695111!2d75.11910207458678!3d15.36916625779964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb8d0ccd709a737%3A0xa247612556cc78b3!2sKLE%20Technological%20University!5e1!3m2!1sen!2sin!4v1750143793671!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                <div className="image-section"></div>
+                {/* <div className="image-section"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3481.456921695111!2d75.11910207458678!3d15.36916625779964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb8d0ccd709a737%3A0xa247612556cc78b3!2sKLE%20Technological%20University!5e1!3m2!1sen!2sin!4v1750143793671!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div> */}
                 <div className="info-section">
                     <h1>SEE YOU SOON</h1>
-                    <div className="info-block"><h4>PHONE NUMBER</h4><p>(+91) 90199 94562 | (+91) 99028 95454 </p></div>
+                    <div className="info-block"><h4>PHONE NUMBER</h4><p>(+91) 9019994562</p></div>
                     <div className="info-block"><h4>EMAIL ADDRESS</h4><p>smartdine@gmail.com</p></div>
                     <div className="info-block"><h4>PLACE</h4><p>Kle Tech Hubli, Vidyanagar Hubli.</p></div>
                 </div>
