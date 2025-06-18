@@ -441,9 +441,10 @@ const MenuCreation = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         handleShowUrlPopup(menu._id);
-                        setQrTimer('');
-                        setQrTimeLeft(null);
-                        setQrExpired(false);
+                        // Remove timer reset here to keep timer running even if modal is closed/opened
+                        // setQrTimer('');
+                        // setQrTimeLeft(null);
+                        // setQrExpired(false);
                       }}
                     >
                       <BsEye /> View
