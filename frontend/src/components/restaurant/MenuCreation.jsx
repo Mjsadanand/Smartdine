@@ -130,7 +130,7 @@ const MenuCreation = () => {
     } catch (err) {
       console.error('Error toggling publish status:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(true); // Stop loading
     }
   };
 
