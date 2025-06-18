@@ -356,6 +356,44 @@ const MenuCreation = () => {
     }
   }, []);
 
+  // Timer state for QR code validity
+  const [qrTimer, setQrTimer] = useState('');
+  const [qrTimeLeft, setQrTimeLeft] = useState(null);
+  const [qrExpired, setQrExpired] = useState(false);
+
+  // Start timer when showUrlPopup is opened and qrTimer is set
+  useEffect(() => {
+    let interval;
+    if (showUrlPopup && qrTimeLeft > 0) {
+      setQrExpired(false);
+      interval = setInterval(() => {
+        setQrTimeLeft((prev) => {
+          if (prev > 1) return prev - 1;
+          clearInterval(interval);
+          setQrExpired(true);
+          return 0;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [showUrlPopup, qrTimeLeft]);
+
+  // Handle timer input and start
+  const handleStartQrTimer = () => {
+    const seconds = parseInt(qrTimer, 10);
+    if (!isNaN(seconds) && seconds > 0) {
+      setQrTimeLeft(seconds);
+      setQrExpired(false);
+    }
+  };
+
+  // Format seconds to mm:ss
+  const formatTime = (secs) => {
+    const m = Math.floor(secs / 60).toString().padStart(2, '0');
+    const s = (secs % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
+
   return (
     <div>
       <div>
@@ -403,6 +441,9 @@ const MenuCreation = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         handleShowUrlPopup(menu._id);
+                        setQrTimer('');
+                        setQrTimeLeft(null);
+                        setQrExpired(false);
                       }}
                     >
                       <BsEye /> View
@@ -632,12 +673,35 @@ const MenuCreation = () => {
           </button>
         </Modal>
 
-
         {showUrlPopup && (
           <div className="modal-overlay" onClick={closeUrlPopup}>
             <div className="modal-content" style={{ width: "500px" }} onClick={(e) => e.stopPropagation()}>
               <button className="close-btn" onClick={closeUrlPopup}>×</button>
               <h3 style={{ color: "black" }}>Menu URL</h3>
+              {/* Timer input and display */}
+              <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
+                <label style={{ fontWeight: 600, marginRight: 8 }}>Set QR Validity (seconds):</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={qrTimer}
+                  onChange={e => setQrTimer(e.target.value.replace(/[^0-9]/g, ''))}
+                  style={{ width: 80, marginRight: 8 }}
+                  disabled={qrTimeLeft !== null && !qrExpired}
+                />
+                <button
+                  className="btn small"
+                  onClick={handleStartQrTimer}
+                  disabled={qrTimeLeft !== null && !qrExpired}
+                >
+                  Start Timer
+                </button>
+                {qrTimeLeft !== null && !qrExpired && (
+                  <div style={{ marginTop: 8, fontSize: 18, color: '#333' }}>
+                    Time left: <span style={{ fontWeight: 700 }}>{formatTime(qrTimeLeft)}</span>
+                  </div>
+                )}
+              </div>
               {/* Display the link */}
               <a
                 href={menuUrl}
@@ -648,23 +712,39 @@ const MenuCreation = () => {
               >
                 {menuUrl}
               </a>
-              {/* Display the QR code */}
-              <QRCodeCanvas
-                id="qr-code"
-                value={menuUrl}
-                size={400}
-                style={{ marginBottom: '1rem' }}
-              />
-              {/* Download buttons */}
-              <button className="btn small" onClick={handleDownloadQRImage}>
-                Download QR as Image
-              </button>
-              <button className="btn small" onClick={handleDownloadQRPDF}>
-                Download QR as PDF
-              </button>
-              <button className="btn small" onClick={handleUploadQRToCloudinary}>
-                Make Public
-              </button>
+              {/* Display the QR code or expired message */}
+              {qrExpired ? (
+                <div style={{
+                  color: 'red',
+                  fontWeight: 'bold',
+                  fontSize: '2rem',
+                  textAlign: 'center',
+                  margin: '2rem 0'
+                }}>
+                  The QR code validity is expired
+                </div>
+              ) : (
+                <QRCodeCanvas
+                  id="qr-code"
+                  value={menuUrl}
+                  size={400}
+                  style={{ marginBottom: '1rem' }}
+                />
+              )}
+              {/* Download buttons (only if not expired) */}
+              {!qrExpired && (
+                <>
+                  <button className="btn small" onClick={handleDownloadQRImage}>
+                    Download QR as Image
+                  </button>
+                  <button className="btn small" onClick={handleDownloadQRPDF}>
+                    Download QR as PDF
+                  </button>
+                  <button className="btn small" onClick={handleUploadQRToCloudinary}>
+                    Make Public
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
