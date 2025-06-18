@@ -78,34 +78,9 @@ const handleVisitorSubmit = async (e) => {
   setSubmitting(true);
 
   try {
-    let subscriberId = null;
-
-    // Wrap the subscribe and getSubscriberId callbacks in Promises
-    if (window.webpushr) {
-      const permissionGranted = await new Promise((resolve) => {
-        window.webpushr('subscribe', function (status) {
-          resolve(status);
-        });
-      });
-
-      if (!permissionGranted) {
-        alert('Please allow notifications to subscribe!');
-        setSubmitting(false);
-        return;
-      }
-
-      subscriberId = await new Promise((resolve) => {
-        window.webpushr('getSubscriberId', function (id) {
-          console.log('Webpushr subscriberId:', id);
-          resolve(id);
-        });
-      });
-    }
-
     await axios.post('https://smartdine.onrender.com/api/store-interaction', {
       ...visitor,
       menuId,
-      subscriberId, // now this is a proper value
     });
 
     localStorage.setItem(`visited_menu_${menuId}`, 'true');
@@ -114,8 +89,8 @@ const handleVisitorSubmit = async (e) => {
     setShowVisitorForm(false);
 
   } catch (err) {
-    console.error('Subscription error:', err);
-    alert('Failed to subscribe. Please try again.');
+    console.error('Error storing visitor info:', err);
+    alert('Failed to submit. Please try again.');
   } finally {
     setSubmitting(false);
   }

@@ -441,7 +441,7 @@ const MenuCreation = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         handleShowUrlPopup(menu._id);
-                        // Remove timer reset here to keep timer running even if modal is closed/opened
+                        
                         // setQrTimer('');
                         // setQrTimeLeft(null);
                         // setQrExpired(false);
@@ -679,6 +679,8 @@ const MenuCreation = () => {
             <div className="modal-content" style={{ width: "500px" }} onClick={(e) => e.stopPropagation()}>
               <button className="close-btn" onClick={closeUrlPopup}>×</button>
               <h3 style={{ color: "black" }}>Menu URL</h3>
+
+            {/* //Modification */}
               {/* Timer input and display */}
               <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
                 <label style={{ fontWeight: 600, marginRight: 8 }}>Set QR Validity (seconds):</label>
@@ -753,6 +755,8 @@ const MenuCreation = () => {
     </div>
   );
 };
+
+// modification
 
 const Loader = () => (
   <div className="loader">
