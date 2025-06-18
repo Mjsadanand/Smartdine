@@ -13,14 +13,12 @@ import { createRoot } from 'react-dom/client'; // Import createRoot from react-d
 
 const MenuCreation = () => {
   const { restaurantId } = useParams();
-  const { username } = useParams();
   const navigate = useNavigate();
   // States
   const [menus, setMenus] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [dropdownOpenId, setDropdownOpenId] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
   // Modal visibility
   const [showMenuModal, setShowMenuModal] = useState(false);
@@ -358,27 +356,6 @@ const MenuCreation = () => {
     }
   }, []);
 
-    const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-  };
-
-  // Fetch username from localStorage or API
-  const [realUsername, setRealUsername] = useState('');
-
-  useEffect(() => {
-    // Try to get username from localStorage or API
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setRealUsername(storedUsername);
-    } else if (username) {
-      setRealUsername(username);
-    } else {
-      // Optionally, fetch from API if needed
-      setRealUsername('');
-    }
-  }, [username]);
-
   return (
     <div>
       <div>
@@ -388,61 +365,7 @@ const MenuCreation = () => {
           </a>
           <div className="icon-group">
             <FaBell className="icon" title="Notifications" />
-            <FaChartBar
-              className="icon"
-              title="Dashboard"
-              style={{ cursor: 'pointer', marginRight: '1rem' }}
-              onClick={() => navigate(`/dashboard/${realUsername}`)}
-            />
-            <div className="profile-dropdown">
-              <FaUserCircle
-                className="icon"
-                title="Profile"
-                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-              />
-              {showProfileDropdown && (
-                <div className="profile-popup-overlay" onClick={() => setShowProfileDropdown(false)}>
-                  <div
-                    className="profile-popup"
-                    onClick={e => e.stopPropagation()}
-                    style={{
-                      background: '#fff',
-                      borderRadius: '8px',
-                      boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-                      padding: '1.5rem',
-                      minWidth: '250px',
-                      position: 'absolute',
-                      right: 0,
-                      top: '2.5rem',
-                      zIndex: 1000,
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                      <FaUserCircle size={40} style={{ marginRight: '1rem' }} />
-                      <div>
-                        <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                          {realUsername ? realUsername.replace(/[0-9_]/g, '') : ''}
-                        </div>
-                        {/* <div style={{ color: '#888', fontSize: '0.95rem' }}>
-                                  @{localStorage.getItem('email') || ''}
-                                </div> */}
-                      </div>
-                    </div>
-                    <hr style={{ margin: '0.5rem 0' }} />
-                    {/* <div className="dropdown-item" style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
-                        Profile
-                      </div> */}
-                    <div
-                      className="dropdown-item logout"
-                      style={{ color: '#d32f2f', cursor: 'pointer' }}
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            <FaUserCircle className="icon" title="Profile" />
           </div>
         </div>
         <hr className="divider" />
