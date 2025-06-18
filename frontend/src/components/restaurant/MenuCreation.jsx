@@ -125,7 +125,7 @@ const MenuCreation = () => {
       // Show the popup only when transitioning from Unpublish to Publish
       if (!isPublished && updatedMenu.published) {
         window.location.reload();
-        handleShowUrlPopup(menuId); // Show URL popup if published
+        // handleShowUrlPopup(menuId); // Show URL popup if published
         
       }
       showSystemNotification("Menu Published", "A menu was published!");
