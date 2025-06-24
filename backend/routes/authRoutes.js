@@ -3,6 +3,7 @@ import passport from 'passport';
 import { register, login } from '../controllers/authController.js';
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 
 const router = express.Router();
 
@@ -24,7 +25,25 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
         process.env.JWT_SECRET,
         { expiresIn: '1d' }
       );
-      // Redirect with token and username as query params
+      // Create transporter
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      });
+
+      // Email options
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: user.email,
+        subject: 'Login Notification',
+        text: `Hello ${user.username},\n\nYou have successfully logged in using Google OAuth.\n\nIf this wasn't you, please contact support immediately.`
+      };
+
+      // Send email
+      await transporter.sendMail(mailOptions);
       res.redirect(`https://smartdine.onrender.com/oauth-success?token=${token}&username=${user.username}`);
     } else {
       res.redirect('/login/failed');
