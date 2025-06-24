@@ -45,7 +45,12 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
       };
 
       // Send email
-      await transporter.sendMail(mailOptions);
+      try {
+        await transporter.sendMail(mailOptions);
+      } catch (emailError) {
+        console.error('Error sending email:', emailError);
+        alert('There was an issue sending the notification email. Please check your email settings.');
+      }
       res.redirect(`https://smartdine.onrender.com/oauth-success?token=${token}&username=${user.username}`);
     } else {
       res.redirect('/login/failed');
