@@ -16,6 +16,8 @@ import { checkConsent } from './middleware/consentMiddleware.js';
 import cookieParser from 'cookie-parser';
 import Visitor from './models/Visitor.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import helmet from 'helmet';
+import {rateLimit} from 'express-rate-limit';
 
 dotenv.config();
 
@@ -23,7 +25,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
-
+app.use(helmet());
 // Middleware
 app.use(express.json());
 
@@ -31,6 +33,14 @@ app.use(cors({
   origin: 'https://smartdine.onrender.com', // Frontend URL
   credentials: true, // Allow credentials (cookies)
 }));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests, please try again later.'
+});
+
+app.use(limiter);
 
 app.use(cookieParser());
 
